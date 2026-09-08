@@ -494,7 +494,7 @@
             text-align: center;
         }
 
-         .big-tree {
+        .big-tree {
       color: #2e8b57;
     position: relative;
     z-index: 2;
@@ -1085,6 +1085,246 @@
             text-align: center;
         }
 
+
+        /* =========================
+           DONATIONS
+        ========================== */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .donate-btn {
+            height: 45px;
+            border: 0;
+            border-radius: 13px;
+            padding: 0 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #d8a63a;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 800;
+            transition: .25s ease;
+            box-shadow: 0 8px 20px rgba(216,166,58,.18);
+        }
+        .donate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(216,166,58,.25);
+        }
+        header.scrolled .donate-btn {
+            background: #c79122;
+        }
+        .donation-modal .modal-box {
+            width: min(1050px, 100%);
+            max-height: 94vh;
+            padding: 28px;
+        }
+        .donation-head {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .donation-head .donation-main-icon {
+            width: 66px;
+            height: 66px;
+            border-radius: 20px;
+            background: #fff7df;
+            color: #c79122;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 28px;
+        }
+        .donation-head h3 {
+            color: var(--green-dark);
+            font-size: 28px;
+            margin-bottom: 7px;
+        }
+        .donation-head p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 14px;
+            max-width: 650px;
+            margin: auto;
+        }
+        .donation-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .donation-card {
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            padding: 22px;
+            background: #fff;
+            box-shadow: 0 8px 25px rgba(25,60,40,.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .donation-card::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            left: -45px;
+            bottom: -45px;
+            background: var(--green-soft);
+        }
+        .donation-card-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        .donation-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 15px;
+            background: var(--green-soft);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex: 0 0 auto;
+        }
+        .donation-card h4 {
+            color: var(--green-dark);
+            font-size: 19px;
+            margin-bottom: 2px;
+        }
+        .donation-card small {
+            color: var(--muted);
+            font-size: 11px;
+        }
+        .donation-number {
+            direction: ltr;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f7faf8;
+            border: 1px dashed #c6d9ca;
+            border-radius: 14px;
+            padding: 8px;
+            margin: 14px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .donation-number strong {
+            flex: 1;
+            text-align: center;
+            letter-spacing: 1px;
+            font-size: 20px;
+            color: var(--green-dark);
+        }
+        .donation-copy {
+            width: 42px;
+            height: 42px;
+            border: 0;
+            border-radius: 11px;
+            background: var(--green);
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        .donation-card p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 13px;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .donation-card .btn {
+            position: relative;
+            z-index: 1;
+        }
+        .donation-whatsapp {
+            background: #1f8f4c;
+            color: #fff;
+        }
+        .donation-whatsapp:hover {
+            background: #18763d;
+        }
+        .donation-thanks-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 11000;
+            background: rgba(9,35,23,.48);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .donation-thanks-overlay.active {
+            display: flex;
+            animation: donationFadeIn .25s ease;
+        }
+        .donation-thanks-card {
+            width: min(440px, 100%);
+            background: #fff;
+            border-radius: 26px;
+            padding: 32px 28px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0,0,0,.25);
+            position: relative;
+            animation: donationPop .35s ease;
+        }
+        .donation-thanks-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 22px;
+            background: var(--green-soft);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 30px;
+        }
+        .donation-thanks-card h3 {
+            color: var(--green-dark);
+            margin-bottom: 8px;
+            font-size: 24px;
+        }
+        .donation-thanks-card p {
+            color: var(--muted);
+            line-height: 1.9;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        @keyframes donationFadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes donationPop {
+            from { opacity:0; transform:translateY(15px) scale(.96); }
+            to { opacity:1; transform:translateY(0) scale(1); }
+        }
+        @media (max-width: 900px) {
+            .donation-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .donate-btn {
+                width: 45px;
+                padding: 0;
+                font-size: 17px;
+            }
+            .donate-btn span { display: none; }
+            .header-actions { gap: 6px; }
+            .donation-modal .modal-box { padding: 20px; }
+            .donation-head h3 { font-size: 24px; }
+            .donation-card { padding: 18px; }
+            .donation-number strong { font-size: 17px; }
+        }
+
         /* =========================
            GHARSA ENHANCEMENTS
         ========================== */
@@ -1647,9 +1887,15 @@
                 <a href="#goals">أهداف المشروع</a>
             </nav>
 
-            <button class="menu-btn" onclick="openSideMenu()">
-                <i class="fa-solid fa-bars"></i>
-            </button>
+            <div class="header-actions">
+                <button class="donate-btn" onclick="openDonations()" aria-label="التبرع">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                    <span>تبرع</span>
+                </button>
+                <button class="menu-btn" onclick="openSideMenu()" aria-label="القائمة">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
 
         </div>
     </header>
@@ -1698,6 +1944,11 @@
             <a href="#" onclick="openReportInquiry(); closeSideMenu(); return false;">
                 <i class="fa-solid fa-magnifying-glass"></i>
                 استعلام عن البلاغ
+            </a>
+
+            <a href="#" onclick="openDonations(); closeSideMenu(); return false;">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                تبرع الآن
             </a>
 
             <a href="https://www.facebook.com/gharsa.eg" target="_blank" rel="noopener" onclick="closeSideMenu()">
@@ -2087,6 +2338,7 @@
                     <a href="#about">من نحن</a>
                     <a href="#goals">أهداف المشروع</a>
                     <a href="#" onclick="openReportInquiry(); return false;">استعلام عن البلاغ</a>
+                    <a href="#" onclick="openDonations(); return false;">تبرع الآن</a>
                 </div>
 
 
@@ -2115,6 +2367,175 @@
 
 </div>
 
+
+
+<!-- =========================
+     DONATIONS
+========================== -->
+
+<div class="modal content-modal donation-modal" id="donationModal">
+    <div class="modal-box">
+
+        <div class="modal-head">
+            <div class="modal-title">
+                <div class="icon">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+                <div>
+                    <h3>التبرعات</h3>
+                    <p>ساهم معنا في استمرار أثر غرسة</p>
+                </div>
+            </div>
+
+            <button class="modal-close" onclick="closeModal('donationModal')" aria-label="إغلاق">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="donation-head">
+            <div class="donation-main-icon">
+                <i class="fa-solid fa-heart"></i>
+            </div>
+            <h3>اختر طريقة مساهمتك</h3>
+            <p>
+                كل مساهمة تساعدنا على تنظيف الأماكن، توفير أدوات الإصلاح،
+                وزراعة الأشجار وصناعة أماكن أفضل للمجتمع.
+            </p>
+        </div>
+
+        <div class="donation-grid">
+
+            <div class="donation-card">
+                <div class="donation-card-top">
+                    <div class="donation-card-icon">
+                        <i class="fa-solid fa-wallet"></i>
+                    </div>
+                    <div>
+                        <h4>فودافون كاش</h4>
+                        <small>تحويل التبرع إلى المحفظة</small>
+                    </div>
+                </div>
+
+                <div class="donation-number">
+                    <strong>01009160625</strong>
+                    <button class="donation-copy" onclick="copyDonationNumber('01009160625')" title="نسخ الرقم" aria-label="نسخ رقم فودافون كاش">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+
+                <p>بعد إتمام التحويل، اضغط على زر «تم التبرع» لشكرِك على مساهمتك.</p>
+
+                <button class="btn btn-green" style="width:100%;" onclick="donationCompleted('فودافون كاش')">
+                    <i class="fa-solid fa-circle-check"></i>
+                    تم التبرع
+                </button>
+            </div>
+
+            <div class="donation-card">
+                <div class="donation-card-top">
+                    <div class="donation-card-icon">
+                        <i class="fa-solid fa-mobile-screen-button"></i>
+                    </div>
+                    <div>
+                        <h4>إنستا باي</h4>
+                        <small>تحويل التبرع إلى الحساب</small>
+                    </div>
+                </div>
+
+                <div class="donation-number">
+                    <strong>01009160625</strong>
+                    <button class="donation-copy" onclick="copyDonationNumber('01009160625')" title="نسخ الرقم" aria-label="نسخ رقم إنستا باي">
+                        <i class="fa-regular fa-copy"></i>
+                    </button>
+                </div>
+
+                <p>بعد إتمام التحويل، اضغط على زر «تم التبرع» لتأكيد مساهمتك.</p>
+
+                <button class="btn btn-green" style="width:100%;" onclick="donationCompleted('إنستا باي')">
+                    <i class="fa-solid fa-circle-check"></i>
+                    تم التبرع
+                </button>
+            </div>
+
+            <div class="donation-card">
+                <div class="donation-card-top">
+                    <div class="donation-card-icon">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div>
+                        <h4>أدوات التنظيف والإصلاح</h4>
+                        <small>ساهم بالأدوات أو المستلزمات</small>
+                    </div>
+                </div>
+
+                <p>
+                    إذا كنت ترغب في التبرع بأدوات التنظيف أو الإصلاح،
+                    تواصل معنا عبر واتساب للتنسيق والاستلام.
+                </p>
+
+                <div class="donation-number">
+                    <strong>01009160625</strong>
+                </div>
+
+                <button class="btn donation-whatsapp" style="width:100%;" onclick="openDonationWhatsApp('أدوات التنظيف والإصلاح')">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    تواصل عبر واتساب
+                </button>
+            </div>
+
+            <div class="donation-card">
+                <div class="donation-card-top">
+                    <div class="donation-card-icon">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+                    <div>
+                        <h4>الأشجار</h4>
+                        <small>ساهم في التبرع بالأشجار</small>
+                    </div>
+                </div>
+
+                <p>
+                    يمكنك المساهمة بتوفير الأشجار والشتلات المناسبة،
+                    وتواصل معنا عبر واتساب لمعرفة الاحتياج والتنسيق.
+                </p>
+
+                <div class="donation-number">
+                    <strong>01009160625</strong>
+                </div>
+
+                <button class="btn donation-whatsapp" style="width:100%;" onclick="openDonationWhatsApp('الأشجار')">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    تواصل عبر واتساب
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="donation-thanks-overlay" id="donationThanksOverlay"
+     onclick="if(event.target===this) closeDonationThanks()">
+    <div class="donation-thanks-card">
+        <button class="modal-close" style="position:absolute;top:14px;left:14px;"
+                onclick="closeDonationThanks()" aria-label="إغلاق">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <div class="donation-thanks-icon">
+            <i class="fa-solid fa-heart"></i>
+        </div>
+
+        <h3>شكرًا لك ❤️</h3>
+        <p id="donationThanksMessage">
+            شكرًا على تبرعك ودعمك لمبادرة غرسة. مساهمتك تساعدنا على صناعة أثر حقيقي في المجتمع.
+        </p>
+
+        <button class="btn btn-green" style="width:100%;" onclick="closeDonationThanks()">
+            <i class="fa-solid fa-check"></i>
+            حسنًا
+        </button>
+    </div>
+</div>
 
 <!-- =========================
      DIRTY PLACE MODAL
@@ -3140,6 +3561,7 @@ document.querySelectorAll(".modal").forEach(function (modal) {
 document.addEventListener("keydown", function (e) {
     if (e.key === "Escape") {
         closeAllModals();
+        closeDonationThanks();
         closeSideMenu();
     }
 });
@@ -3148,6 +3570,52 @@ function openDirtyPlace() { openModal("dirtyModal"); }
 function openVolunteer() { openModal("volunteerModal"); }
 function openPartners() { openModal("partnerModal"); }
 function openPrivacy() { openModal("privacyModal"); }
+function openDonations() {
+    openModal("donationModal");
+}
+
+function closeDonationThanks() {
+    document.getElementById("donationThanksOverlay").classList.remove("active");
+    if (!document.querySelector(".modal.active")) {
+        document.body.style.overflow = "";
+    }
+}
+
+async function copyDonationNumber(number) {
+    try {
+        await navigator.clipboard.writeText(number);
+        showToast("تم النسخ", "تم نسخ رقم التبرع بنجاح.");
+    } catch (error) {
+        const ta = document.createElement("textarea");
+        ta.value = number;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        ta.remove();
+        showToast("تم النسخ", "تم نسخ رقم التبرع بنجاح.");
+    }
+}
+
+function donationCompleted(method) {
+    closeModal("donationModal");
+    const msg = document.getElementById("donationThanksMessage");
+    msg.textContent =
+        "شكرًا لك على تبرعك عبر " + method +
+        ". مساهمتك تساعد مبادرة غرسة على الاستمرار وصناعة أثر حقيقي في المجتمع. ❤️";
+    document.getElementById("donationThanksOverlay").classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+
+function openDonationWhatsApp(type) {
+    const phone = "201009160625";
+    const message = encodeURIComponent(
+        "مرحبًا غرسة، أرغب في المساهمة من خلال التبرع بـ" + type + "."
+    );
+    window.open("https://wa.me/" + phone + "?text=" + message, "_blank", "noopener");
+}
+
 
 /* =====================================================
    IMAGE PREVIEW

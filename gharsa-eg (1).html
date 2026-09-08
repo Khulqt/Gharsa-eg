@@ -1,0 +1,3600 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>غرسة | من مكان مهمل إلى مكان يستحق الحياة</title>
+
+    <!-- خط تجوال -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- أيقونات Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --green-dark: #123d2a;
+            --green: #2f7d4b;
+            --green-light: #5ca66e;
+            --green-soft: #eaf6ed;
+            --cream: #f8fbf7;
+            --white: #ffffff;
+            --text: #193126;
+            --muted: #718078;
+            --border: #e3ebe5;
+            --danger: #c94a4a;
+            --warning: #d79a25;
+            --shadow: 0 15px 45px rgba(22, 61, 42, 0.10);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Tajawal", sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* =========================
+           LOADING
+        ========================== */
+
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--green-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity .6s ease, visibility .6s ease;
+        }
+
+        #loader.hide {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-content {
+            text-align: center;
+            color: white;
+            animation: loaderUp 1s ease;
+        }
+
+        .loader-logo {
+            width: 82px;
+            height: 82px;
+            margin: auto auto 18px;
+            border: 1px solid rgba(255,255,255,.3);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            background: rgba(255,255,255,.08);
+        }
+
+        .loader-content h1 {
+            font-size: 34px;
+            margin-bottom: 7px;
+        }
+
+        .loader-content p {
+            color: rgba(255,255,255,.7);
+        }
+
+        @keyframes loaderUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =========================
+           HEADER
+        ========================== */
+
+        header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            z-index: 1000;
+            padding: 17px 5%;
+            transition: .3s ease;
+        }
+
+        header.scrolled {
+            background: rgba(255,255,255,.93);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 5px 25px rgba(0,0,0,.06);
+            padding-top: 11px;
+            padding-bottom: 11px;
+        }
+
+        .navbar {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            font-weight: 900;
+            font-size: 25px;
+            color: white;
+        }
+
+        header.scrolled .logo {
+            color: var(--green-dark);
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 15px;
+            background: rgba(255,255,255,.15);
+            font-size: 21px;
+        }
+
+        header.scrolled .logo-icon {
+            background: var(--green-soft);
+        }
+
+        .desktop-links {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        .desktop-links a {
+            padding: 10px 15px;
+            color: rgba(255,255,255,.85);
+            border-radius: 12px;
+            font-size: 14px;
+            transition: .25s;
+        }
+
+        header.scrolled .desktop-links a {
+            color: var(--text);
+        }
+
+        .desktop-links a:hover {
+            background: rgba(255,255,255,.12);
+        }
+
+        header.scrolled .desktop-links a:hover {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .menu-btn {
+            width: 45px;
+            height: 45px;
+            border: 0;
+            background: rgba(255,255,255,.12);
+            color: white;
+            border-radius: 13px;
+            font-size: 19px;
+            display: none;
+        }
+
+        header.scrolled .menu-btn {
+            color: var(--green-dark);
+            background: var(--green-soft);
+        }
+
+        /* =========================
+           SIDE MENU
+        ========================== */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.42);
+            z-index: 1500;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -340px;
+            width: min(330px, 88%);
+            height: 100vh;
+            background: white;
+            z-index: 1600;
+            padding: 28px 22px;
+            transition: .4s ease;
+            box-shadow: -15px 0 40px rgba(0,0,0,.12);
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .side-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 18px;
+        }
+
+        .side-head strong {
+            font-size: 22px;
+            color: var(--green-dark);
+        }
+
+        .close-menu {
+            border: 0;
+            background: var(--green-soft);
+            color: var(--green);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            font-size: 18px;
+        }
+
+        .side-menu nav a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 15px;
+            border-radius: 13px;
+            margin-bottom: 6px;
+            color: var(--text);
+            transition: .25s;
+        }
+
+        .side-menu nav a:hover {
+            background: var(--green-soft);
+            color: var(--green);
+            transform: translateX(-4px);
+        }
+
+        .side-menu nav i {
+            width: 22px;
+            color: var(--green);
+        }
+
+        /* =========================
+           HERO
+        ========================== */
+
+        .hero {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(95,170,113,.18), transparent 25%),
+                radial-gradient(circle at 85% 70%, rgba(95,170,113,.13), transparent 28%),
+                var(--green-dark);
+            color: white;
+            padding: 120px 5% 80px;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            width: 520px;
+            height: 520px;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 50%;
+            left: -220px;
+            bottom: -250px;
+        }
+
+        .hero-container {
+            max-width: 1250px;
+            width: 100%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            gap: 70px;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-text {
+            animation: fadeRight 1s ease .2s both;
+        }
+
+        @keyframes fadeRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 14px;
+            border-radius: 100px;
+            background: rgba(255,255,255,.08);
+            border: 1px solid rgba(255,255,255,.1);
+            color: #d6efdc;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 6vw, 76px);
+            line-height: 1.05;
+            margin-bottom: 22px;
+            font-weight: 900;
+        }
+
+        .hero h1 span {
+            color: #8bd59c;
+        }
+
+        .hero-description {
+            color: rgba(255,255,255,.72);
+            max-width: 650px;
+            font-size: 18px;
+            line-height: 2;
+            margin-bottom: 32px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn {
+            border: 0;
+            padding: 14px 22px;
+            border-radius: 14px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 9px;
+            font-weight: 700;
+            transition: .25s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--green-dark);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(0,0,0,.18);
+        }
+
+        .btn-green {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-green:hover {
+            background: #26673e;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,.2);
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background: rgba(255,255,255,.08);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            animation: fadeLeft 1s ease .4s both;
+        }
+
+        @keyframes fadeLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .tree-card {
+            width: min(390px, 100%);
+            aspect-ratio: .88;
+            border-radius: 45px;
+            background:
+                linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.035));
+            border: 1px solid rgba(255,255,255,.13);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tree-card::before {
+            content: "";
+            position: absolute;
+            width: 290px;
+            height: 290px;
+            background: rgba(101,181,119,.13);
+            border-radius: 50%;
+            top: -80px;
+            left: -70px;
+        }
+
+        .big-tree {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+      .big-tree {
+      color: #2e8b57;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    transform: translateY(-50px);
+}
+
+        .tree-card-text {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            left: 30px;
+            padding: 17px;
+            background: rgba(0,0,0,.14);
+            border-radius: 18px;
+            backdrop-filter: blur(5px);
+        }
+
+        .tree-card-text strong {
+            display: block;
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .tree-card-text small {
+            color: rgba(255,255,255,.63);
+        }
+
+        /* =========================
+           SECTION
+        ========================== */
+
+        .section {
+            padding: 100px 5%;
+        }
+
+        .section-head {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 50px;
+        }
+
+        .section-label {
+            display: inline-block;
+            color: var(--green);
+            background: var(--green-soft);
+            padding: 7px 13px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 13px;
+        }
+
+        .section-head h2 {
+            font-size: clamp(30px, 4vw, 43px);
+            margin-bottom: 13px;
+            color: var(--green-dark);
+        }
+
+        .section-head p {
+            color: var(--muted);
+            line-height: 1.9;
+        }
+
+        /* =========================
+           CARDS
+        ========================== */
+
+        .cards {
+            max-width: 1150px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .action-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 30px;
+            cursor: pointer;
+            transition: .3s;
+            box-shadow: 0 5px 20px rgba(20,50,30,.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: var(--green-soft);
+            left: -30px;
+            bottom: -40px;
+            transition: .3s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+            border-color: #cce2d1;
+        }
+
+        .action-card:hover::after {
+            transform: scale(1.4);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            background: var(--green-soft);
+            color: var(--green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 25px;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .action-card h3 {
+            font-size: 23px;
+            margin-bottom: 12px;
+            color: var(--green-dark);
+            position: relative;
+            z-index: 2;
+        }
+
+        .action-card p {
+            color: var(--muted);
+            line-height: 1.9;
+            font-size: 14px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-arrow {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 24px;
+            color: var(--green);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* =========================
+           ABOUT
+        ========================== */
+
+        .about {
+            background: white;
+        }
+
+        .about-container {
+            max-width: 1100px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: .85fr 1.15fr;
+            gap: 65px;
+            align-items: center;
+        }
+
+        .about-art {
+            min-height: 360px;
+            border-radius: 35px;
+            background: var(--green-soft);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-art::before,
+        .about-art::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(47,125,75,.15);
+            border-radius: 50%;
+        }
+
+        .about-art::before {
+            width: 290px;
+            height: 290px;
+        }
+
+        .about-art::after {
+            width: 410px;
+            height: 410px;
+        }
+
+        .about-art i {
+            font-size: 135px;
+            color: var(--green);
+            position: relative;
+            z-index: 2;
+        }
+
+        .about-content h2 {
+            font-size: 39px;
+            color: var(--green-dark);
+            margin-bottom: 18px;
+        }
+
+        .about-content p {
+            color: var(--muted);
+            line-height: 2;
+            margin-bottom: 15px;
+        }
+
+        .goals {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .goal {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .goal i {
+            color: var(--green);
+        }
+
+        /* =========================
+           IMPACT
+        ========================== */
+
+        .impact {
+            background: var(--green-dark);
+            color: white;
+        }
+
+        .impact .section-head h2 {
+            color: white;
+        }
+
+        .impact .section-head p {
+            color: rgba(255,255,255,.62);
+        }
+
+        .stats {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .stat {
+            border: 1px solid rgba(255,255,255,.1);
+            background: rgba(255,255,255,.045);
+            border-radius: 22px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .stat i {
+            color: #8bd59c;
+            font-size: 27px;
+            margin-bottom: 14px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 35px;
+            margin-bottom: 4px;
+        }
+
+        .stat span {
+            color: rgba(255,255,255,.58);
+            font-size: 13px;
+        }
+
+        /* =========================
+           MODAL
+        ========================== */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            z-index: 3000;
+            background: rgba(5,20,12,.62);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 18px;
+            opacity: 0;
+            visibility: hidden;
+            transition: .3s;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: white;
+            width: min(650px, 100%);
+            max-height: 92vh;
+            overflow-y: auto;
+            border-radius: 28px;
+            padding: 30px;
+            transform: translateY(25px) scale(.97);
+            transition: .3s;
+        }
+
+        .modal.active .modal-box {
+            transform: translateY(0) scale(1);
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .modal-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .modal-title .icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: var(--green-soft);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .modal-title h3 {
+            color: var(--green-dark);
+            font-size: 22px;
+        }
+
+        .modal-title p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border: 0;
+            border-radius: 12px;
+            background: #f3f6f4;
+            color: var(--text);
+        }
+
+        .instructions {
+            background: var(--green-soft);
+            border: 1px solid #d9eadc;
+            border-radius: 17px;
+            padding: 18px;
+            line-height: 1.9;
+            color: #41614c;
+            font-size: 14px;
+            margin-bottom: 22px;
+        }
+
+        .instructions strong {
+            display: block;
+            color: var(--green-dark);
+            margin-bottom: 5px;
+        }
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            padding: 13px 14px;
+            outline: none;
+            color: var(--text);
+            background: #fbfdfb;
+            transition: .2s;
+            font-size: 14px;
+        }
+
+        .form-control:focus {
+            border-color: var(--green-light);
+            box-shadow: 0 0 0 3px rgba(92,166,110,.10);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .file-box {
+            border: 2px dashed #cddfd1;
+            background: #f9fcf9;
+            padding: 30px 15px;
+            border-radius: 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .file-box:hover {
+            background: var(--green-soft);
+            border-color: var(--green-light);
+        }
+
+        .file-box i {
+            color: var(--green);
+            font-size: 30px;
+            margin-bottom: 9px;
+        }
+
+        .file-box strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .file-box small {
+            color: var(--muted);
+        }
+
+        .file-box input {
+            display: none;
+        }
+
+        .image-preview {
+            display: none;
+            width: 100%;
+            max-height: 260px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-top: 12px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 7px;
+        }
+
+        /* =========================
+           TOAST
+        ========================== */
+
+        .toast-container {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 5000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            width: min(370px, calc(100vw - 40px));
+            background: white;
+            box-shadow: 0 15px 40px rgba(0,0,0,.14);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 15px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            animation: toastIn .35s ease;
+        }
+
+        .toast.success i {
+            color: var(--green);
+        }
+
+        .toast.error i {
+            color: var(--danger);
+        }
+
+        .toast i {
+            margin-top: 2px;
+        }
+
+        .toast strong {
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .toast small {
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* =========================
+           FOOTER
+        ========================== */
+
+        footer {
+            background: #0d2d1f;
+            color: white;
+            padding: 55px 5% 25px;
+        }
+
+        .footer-container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .footer-top {
+            display: grid;
+            grid-template-columns: 1.4fr .8fr .8fr;
+            gap: 50px;
+            padding-bottom: 40px;
+        }
+
+        .footer-brand p {
+            color: rgba(255,255,255,.55);
+            line-height: 1.9;
+            margin-top: 14px;
+            max-width: 420px;
+            font-size: 14px;
+        }
+
+        footer h4 {
+            margin-bottom: 16px;
+        }
+
+        footer a {
+            display: block;
+            color: rgba(255,255,255,.58);
+            margin-bottom: 9px;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,.09);
+            padding-top: 20px;
+            color: rgba(255,255,255,.42);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* =========================
+           ADMIN LOGIN
+        ========================== */
+
+        .admin-page {
+            min-height: 100vh;
+            background: var(--green-dark);
+            padding: 30px 5%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-login {
+            width: min(430px, 100%);
+            background: white;
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 25px 70px rgba(0,0,0,.22);
+        }
+
+        .admin-login-logo {
+            width: 65px;
+            height: 65px;
+            border-radius: 20px;
+            background: var(--green-soft);
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin: 0 auto 18px;
+        }
+
+        .admin-login h2 {
+            text-align: center;
+            color: var(--green-dark);
+            margin-bottom: 5px;
+        }
+
+        .admin-login > p {
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 25px;
+        }
+
+        /* =========================
+           ADMIN DASHBOARD
+        ========================== */
+
+        #adminDashboard {
+            display: none;
+            min-height: 100vh;
+            background: #f5f8f5;
+        }
+
+        .admin-header {
+            background: var(--green-dark);
+            color: white;
+            padding: 18px 5%;
+        }
+
+        .admin-header-inner {
+            max-width: 1250px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+        }
+
+        .admin-brand span {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,.1);
+        }
+
+        .admin-logout {
+            border: 1px solid rgba(255,255,255,.2);
+            background: transparent;
+            color: white;
+            border-radius: 11px;
+            padding: 9px 13px;
+            font-size: 12px;
+        }
+
+        .admin-main {
+            max-width: 1250px;
+            margin: auto;
+            padding: 40px 5%;
+        }
+
+        .dashboard-title {
+            margin-bottom: 25px;
+        }
+
+        .dashboard-title h1 {
+            color: var(--green-dark);
+            font-size: 31px;
+        }
+
+        .dashboard-title p {
+            color: var(--muted);
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .dash-stat {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        .dash-stat i {
+            color: var(--green);
+            margin-bottom: 10px;
+        }
+
+        .dash-stat strong {
+            display: block;
+            font-size: 28px;
+            color: var(--green-dark);
+        }
+
+        .dash-stat span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .admin-tab {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--text);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 13px;
+        }
+
+        .admin-tab.active {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .admin-panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .panel-head {
+            padding: 18px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-head h3 {
+            color: var(--green-dark);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        th,
+        td {
+            text-align: right;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 12px;
+        }
+
+        th {
+            background: #f9fbf9;
+            color: var(--green-dark);
+        }
+
+        td {
+            color: #52645a;
+        }
+
+        .status {
+            display: inline-flex;
+            padding: 5px 9px;
+            border-radius: 100px;
+            font-size: 11px;
+        }
+
+        .status.new {
+            background: #fff4da;
+            color: #9b6b0d;
+        }
+
+        .status.done {
+            background: var(--green-soft);
+            color: var(--green);
+        }
+
+        .status.review {
+            background: #eaf0ff;
+            color: #4967a8;
+        }
+
+        .small-action {
+            border: 0;
+            background: var(--green-soft);
+            color: var(--green);
+            border-radius: 9px;
+            padding: 7px 10px;
+            font-size: 11px;
+        }
+
+        .empty {
+            padding: 45px 20px;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        .empty i {
+            display: block;
+            font-size: 35px;
+            color: #bfd2c2;
+            margin-bottom: 12px;
+        }
+
+        /* =========================
+           PAGE CONTENT MODALS
+        ========================== */
+
+        .content-modal .modal-box {
+            width: min(750px, 100%);
+        }
+
+        .content-body {
+            line-height: 2;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .content-body h4 {
+            color: var(--green-dark);
+            margin: 20px 0 8px;
+            font-size: 18px;
+        }
+
+        .content-body ul {
+            padding-right: 22px;
+            margin-top: 8px;
+        }
+
+        /* =========================
+           LOCATION PICKER
+        ========================== */
+        .location-box {
+            border: 1px solid #dce9df;
+            background: #f8fbf9;
+            border-radius: 16px;
+            padding: 14px;
+        }
+
+        .location-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .location-btn {
+            border: 0;
+            border-radius: 12px;
+            padding: 11px 15px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: .2s ease;
+        }
+
+        .location-btn.primary {
+            background: var(--green);
+            color: #fff;
+        }
+
+        .location-btn.secondary {
+            background: #fff;
+            color: var(--green-dark);
+            border: 1px solid #cfe0d4;
+        }
+
+        .location-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .location-status {
+            display: none;
+            margin: 8px 0 0;
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        .maps-link {
+            display: none;
+            margin-top: 10px;
+            color: #1769aa;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .maps-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 900px) {
+            .desktop-links {
+                display: none;
+            }
+
+            .menu-btn {
+                display: block;
+            }
+
+            .hero-container,
+            .about-container {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding-top: 130px;
+            }
+
+            .hero-visual {
+                order: -1;
+            }
+
+            .tree-card {
+                width: min(330px, 90%);
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .section {
+                padding: 70px 20px;
+            }
+
+            .hero h1 {
+                font-size: 45px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .hero-actions .btn {
+                width: 100%;
+            }
+
+            .tree-card {
+                aspect-ratio: .95;
+            }
+
+            .big-tree i {
+                font-size: 135px;
+            }
+
+            .goals {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .modal-box {
+                padding: 22px;
+                border-radius: 22px;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     LOADER
+========================== -->
+
+<div id="loader">
+    <div class="loader-content">
+        <div class="loader-logo">
+            <i class="fa-solid fa-seedling"></i>
+        </div>
+        <h1>غرسة</h1>
+        <p>من مكان مهمل إلى مكان يستحق الحياة</p>
+    </div>
+</div>
+
+
+<!-- =========================
+     MAIN WEBSITE
+========================== -->
+
+<div id="mainWebsite">
+
+    <!-- Header -->
+    <header id="header">
+        <div class="navbar">
+
+            <a href="#" class="logo" onclick="scrollToTop(); return false;">
+                <span class="logo-icon">
+                    <i class="fa-solid fa-seedling"></i>
+                </span>
+                غرسة
+            </a>
+
+            <nav class="desktop-links">
+                <a href="#home">الرئيسية</a>
+                <a href="#actions">ساهم معنا</a>
+                <a href="#about">من نحن</a>
+                <a href="#goals">أهداف المشروع</a>
+            </nav>
+
+            <button class="menu-btn" onclick="openSideMenu()">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+        </div>
+    </header>
+
+
+    <!-- Side Menu -->
+    <div class="overlay" id="overlay" onclick="closeSideMenu()"></div>
+
+    <aside class="side-menu" id="sideMenu">
+
+        <div class="side-head">
+            <strong>غرسة 🌱</strong>
+
+            <button class="close-menu" onclick="closeSideMenu()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <nav>
+
+            <a href="#home" onclick="closeSideMenu()">
+                <i class="fa-solid fa-house"></i>
+                الرئيسية
+            </a>
+
+            <a href="#about" onclick="closeSideMenu()">
+                <i class="fa-solid fa-seedling"></i>
+                من نحن
+            </a>
+
+            <a href="#" onclick="openVolunteer(); closeSideMenu(); return false;">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                تطوع الآن
+            </a>
+
+            <a href="#" onclick="openPartners(); closeSideMenu(); return false;">
+                <i class="fa-solid fa-handshake"></i>
+                شركاؤنا
+            </a>
+
+            <a href="#goals" onclick="closeSideMenu()">
+                <i class="fa-solid fa-bullseye"></i>
+                أهداف المشروع
+            </a>
+
+            <a href="#" onclick="openPrivacy(); closeSideMenu(); return false;">
+                <i class="fa-solid fa-shield-halved"></i>
+                سياسة الخصوصية
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+
+        <div class="hero-container">
+
+            <div class="hero-text">
+
+                <div class="hero-badge">
+                    <i class="fa-solid fa-leaf"></i>
+                    مبادرة مجتمعية من أجل بيئة أفضل
+                </div>
+
+                <h1>
+                    ازرع أثرًا...
+                    <br>
+                    <span>يستمر بعدك.</span>
+                </h1>
+
+                <p class="hero-description">
+                    نعمل على رصد الأماكن غير النظيفة، وتشجيع المجتمع على تنظيفها،
+                    ثم تحويل الأماكن المناسبة إلى مساحات خضراء واستراحات بسيطة
+                    بالتعاون مع المواطنين والمتطوعين والمؤسسات.
+                </p>
+
+                <div class="hero-actions">
+
+                    <button class="btn btn-primary" onclick="openDirtyPlace()">
+                        <i class="fa-solid fa-camera"></i>
+                        بلّغ عن مكان
+                    </button>
+
+                    <button class="btn btn-outline" onclick="openVolunteer()">
+                        <i class="fa-solid fa-hand-holding-heart"></i>
+                        تطوع معنا
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="hero-visual">
+
+                <div class="tree-card">
+
+                    <div class="big-tree">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+
+                    <div class="tree-card-text">
+                        <strong>مكان اليوم... قد يصبح استراحة الغد 🌱</strong>
+                        <small>معًا نستطيع أن نصنع فرقًا حقيقيًا.</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Actions -->
+    <section class="section" id="actions">
+
+        <div class="section-head">
+
+            <span class="section-label">شارك في التغيير</span>
+
+            <h2>كل مساهمة تصنع فرقًا</h2>
+
+            <p>
+                اختر الطريقة التي تستطيع من خلالها أن تكون جزءًا من رحلة
+                تحويل الأماكن المهملة إلى أماكن أفضل للمجتمع.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <!-- Dirty Place -->
+            <div class="action-card" onclick="openDirtyPlace()">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+
+                <h3>مكان غير نظيف</h3>
+
+                <p>
+                    شاهدت تجمعًا للقمامة أو مكانًا غير نظيف؟
+                    صوّر المكان وارفع الصورة حتى تتمكن الإدارة
+                    من مراجعة البلاغ والتنسيق للتعامل معه.
+                </p>
+
+                <div class="card-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Volunteer -->
+            <div class="action-card" onclick="openVolunteer()">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+
+                <h3>تطوع</h3>
+
+                <p>
+                    ساعدنا في التواصل مع أصحاب الأماكن أو الجهات المختصة
+                    والمؤسسات التطوعية، والمساهمة في تنظيف المكان وتحويله
+                    إلى مساحة أفضل.
+                </p>
+
+                <div class="card-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </div>
+
+
+            <!-- Partners -->
+            <div class="action-card" onclick="openPartners()">
+
+                <div class="card-icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+
+                <h3>شركاؤنا</h3>
+
+                <p>
+                    إذا كنت تمثل شركة أو مؤسسة وترغب في دعم المبادرة
+                    أو المشاركة في توفير الموارد أو تنفيذ المبادرات،
+                    انضم إلى شركائنا.
+                </p>
+
+                <div class="card-arrow">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- About -->
+    <section class="section about" id="about">
+
+        <div class="about-container">
+
+            <div class="about-art">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div class="about-content">
+
+                <span class="section-label">من نحن</span>
+
+                <h2>فكرة صغيرة... وأثر كبير.</h2>
+
+                <p>
+                    «غرسة» مشروع مجتمعي يهدف إلى إشراك المواطن في تحسين البيئة
+                    المحيطة به، من خلال الإبلاغ عن الأماكن غير النظيفة،
+                    وتشجيع التطوع والشراكة المجتمعية لمعالجة هذه الأماكن.
+                </p>
+
+                <p>
+                    لا يتوقف هدفنا عند إزالة القمامة، بل نسعى — عندما تسمح
+                    طبيعة المكان وموافقة الجهات المختصة — إلى تحويله إلى
+                    مساحة خضراء أو استراحة بسيطة يستفيد منها المجتمع.
+                </p>
+
+                <div class="goals">
+
+                    <div class="goal">
+                        <i class="fa-solid fa-location-dot"></i>
+                        رصد الأماكن المحتاجة
+                    </div>
+
+                    <div class="goal">
+                        <i class="fa-solid fa-users"></i>
+                        إشراك المجتمع
+                    </div>
+
+                    <div class="goal">
+                        <i class="fa-solid fa-broom"></i>
+                        دعم أعمال التنظيف
+                    </div>
+
+                    <div class="goal">
+                        <i class="fa-solid fa-tree"></i>
+                        تشجيع التشجير
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Goals -->
+    <section class="section" id="goals">
+
+        <div class="section-head">
+
+            <span class="section-label">أهداف المشروع</span>
+
+            <h2>ماذا نريد أن نحقق؟</h2>
+
+            <p>
+                بناء مجتمع أكثر وعيًا بمساحاته العامة، وتحويل المبادرات
+                الصغيرة إلى أثر مستمر.
+            </p>
+
+        </div>
+
+
+        <div class="cards">
+
+            <div class="action-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+                <h3>الرصد</h3>
+                <p>
+                    تسهيل الإبلاغ عن الأماكن التي تحتاج إلى تدخل وتنظيف.
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-people-group"></i>
+                </div>
+                <h3>المشاركة</h3>
+                <p>
+                    إنشاء حلقة وصل بين المواطنين والمتطوعين والمؤسسات.
+                </p>
+            </div>
+
+            <div class="action-card">
+                <div class="card-icon">
+                    <i class="fa-solid fa-tree"></i>
+                </div>
+                <h3>الاستدامة</h3>
+                <p>
+                    السعي لتحويل الأماكن المناسبة بعد تنظيفها إلى مساحات
+                    خضراء يستفيد منها المجتمع.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Impact -->
+    <section class="section impact">
+
+        <div class="section-head">
+
+            <span class="section-label">أثرنا</span>
+
+            <h2>البداية منك</h2>
+
+            <p>
+                كل بلاغ قد يكون بداية لتغيير حقيقي.
+            </p>
+
+        </div>
+
+        <div class="stats">
+
+            <div class="stat">
+                <i class="fa-solid fa-location-dot"></i>
+                <strong id="statReports">0</strong>
+                <span>بلاغات مسجلة</span>
+            </div>
+
+            <div class="stat">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <strong id="statVolunteers">0</strong>
+                <span>طلبات تطوع</span>
+            </div>
+
+            <div class="stat">
+                <i class="fa-solid fa-handshake"></i>
+                <strong id="statPartners">0</strong>
+                <span>طلبات شراكة</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <div class="footer-container">
+
+            <div class="footer-top">
+
+                <div class="footer-brand">
+
+                    <div class="logo">
+                        <span class="logo-icon">
+                            <i class="fa-solid fa-seedling"></i>
+                        </span>
+                        غرسة
+                    </div>
+
+                    <p>
+                        من مكان مهمل إلى مكان يستحق الحياة.
+                        مبادرة مجتمعية تهدف إلى ربط المواطن بالمتطوع
+                        والمؤسسة لصناعة بيئة أفضل.
+                    </p>
+
+                </div>
+
+
+                <div>
+                    <h4>روابط</h4>
+
+                    <a href="#home">الرئيسية</a>
+                    <a href="#about">من نحن</a>
+                    <a href="#goals">أهداف المشروع</a>
+                </div>
+
+
+                <div>
+                    <h4>شارك معنا</h4>
+
+                    <a href="#" onclick="openDirtyPlace(); return false;">بلّغ عن مكان</a>
+                    <a href="#" onclick="openVolunteer(); return false;">تطوع الآن</a>
+                    <a href="#" onclick="openPartners(); return false;">شركاؤنا</a>
+                    <a href="#" onclick="openPrivacy(); return false;">سياسة الخصوصية</a>
+                </div>
+
+            </div>
+
+
+            <div class="footer-bottom">
+                © 2026 غرسة — جميع الحقوق محفوظة
+            </div>
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+<!-- =========================
+     DIRTY PLACE MODAL
+========================== -->
+
+<div class="modal" id="dirtyModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+
+                <div class="icon">
+                    <i class="fa-solid fa-camera"></i>
+                </div>
+
+                <div>
+                    <h3>مكان غير نظيف</h3>
+                    <p>ساهم في رصد الأماكن المحتاجة</p>
+                </div>
+
+            </div>
+
+            <button class="modal-close" onclick="closeModal('dirtyModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="instructions">
+
+            <strong>
+                كيف يمكنك المساعدة؟
+            </strong>
+
+            إذا شاهدت مكانًا غير نظيف أو تجمعًا للقمامة،
+            يرجى تصوير المكان بوضوح ورفع الصورة من خلال النموذج.
+            ستصل الصورة إلى إدارة «غرسة» لمراجعة البلاغ واتخاذ الإجراءات
+            المناسبة والتنسيق مع الجهات أو المتطوعين حسب الحالة.
+
+        </div>
+
+
+        <form id="dirtyForm">
+
+            <div class="form-group">
+
+                <label>صورة المكان</label>
+
+                <label class="file-box">
+
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+
+                    <strong>اضغط لاختيار صورة</strong>
+
+                    <small>
+                        يفضل أن تكون الصورة واضحة وتظهر المكان بالكامل
+                    </small>
+
+                    <input
+                        type="file"
+                        id="placeImage"
+                        accept="image/*"
+                        required
+                        onchange="previewImage(this)"
+                    >
+
+                </label>
+
+                <img id="imagePreview" class="image-preview">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>وصف مختصر للمكان</label>
+
+                <textarea
+                    class="form-control"
+                    id="placeDescription"
+                    placeholder="مثال: تجمع قمامة بجوار الطريق..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>موقع المكان</label>
+
+                <div class="location-box">
+                    <div class="location-actions">
+                        <button type="button" class="location-btn primary" id="getLocationBtn" onclick="getCurrentLocation()">
+                            <i class="fa-solid fa-location-crosshairs"></i>
+                            استخدام موقعي الحالي
+                        </button>
+
+                        <button type="button" class="location-btn secondary" id="openMapsPickerBtn" onclick="openGoogleMapsPicker()">
+                            <i class="fa-brands fa-google"></i>
+                            فتح Google Maps
+                        </button>
+                    </div>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="placeLocation"
+                        placeholder="اضغط استخدام موقعي الحالي ليتم جلب العنوان تلقائيًا"
+                        readonly
+                        required
+                    >
+
+                    <input type="hidden" id="placeLatitude">
+                    <input type="hidden" id="placeLongitude">
+                    <input type="hidden" id="placeMapsUrl">
+
+                    <div id="locationStatus" class="location-status"></div>
+                    <a id="placeMapsLink" class="maps-link" href="#" target="_blank" rel="noopener">
+                        <i class="fa-solid fa-map-location-dot"></i> عرض الموقع على Google Maps
+                    </a>
+                </div>
+
+                <small style="display:block;margin-top:8px;color:var(--muted);">
+                    سيتم تحديد موقعك عبر GPS، ثم جلب عنوان تقريبي تلقائيًا، مع حفظ رابط Google Maps للبلاغ.
+                </small>
+
+            </div>
+
+
+            <button type="submit" class="btn btn-green submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                إرسال البلاغ إلى الإدارة
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     VOLUNTEER MODAL
+========================== -->
+
+<div class="modal" id="volunteerModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+
+                <div class="icon">
+                    <i class="fa-solid fa-hand-holding-heart"></i>
+                </div>
+
+                <div>
+                    <h3>التطوع معنا</h3>
+                    <p>كن جزءًا من صناعة التغيير</p>
+                </div>
+
+            </div>
+
+            <button class="modal-close" onclick="closeModal('volunteerModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="instructions">
+
+            <strong>ما دور المتطوع؟</strong>
+
+            يساهم المتطوع في التواصل مع أصحاب المكان غير النظيف
+            أو التواصل مع مؤسسة تطوعية أو رئاسة الحي لتقديم البلاغ
+            والمساعدة في إزالة القمامة، والسعي — وفق ما تسمح به الجهة
+            المختصة — إلى تحويل المكان إلى مساحة مزروعة أو استراحة بسيطة.
+
+            <br><br>
+
+            بعد إرسال طلبك، ستقوم إدارة «غرسة» بمراجعة بياناتك
+            والتواصل معك عند الحاجة.
+
+        </div>
+
+
+        <form id="volunteerForm">
+
+            <div class="form-group">
+                <label>الاسم الثلاثي</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="volunteerName"
+                    placeholder="اكتب اسمك الثلاثي"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input
+                    type="tel"
+                    class="form-control"
+                    id="volunteerPhone"
+                    placeholder="01xxxxxxxxx"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>السن</label>
+                <input
+                    type="number"
+                    class="form-control"
+                    id="volunteerAge"
+                    placeholder="مثال: 25"
+                    min="10"
+                    max="100"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>المؤهل الدراسي</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="volunteerQualification"
+                    placeholder="مثال: بكالوريوس تجارة"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>مدى التفرغ</label>
+                <input
+                    type="text"
+                    class="form-control"
+                    id="volunteerAvailability"
+                    placeholder="مثال: 5 ساعات يوميًا"
+                    required
+                >
+            </div>
+
+
+            <button type="submit" class="btn btn-green submit-btn">
+                <i class="fa-solid fa-paper-plane"></i>
+                إرسال طلب التطوع
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PARTNER MODAL
+========================== -->
+
+<div class="modal" id="partnerModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+
+                <div class="icon">
+                    <i class="fa-solid fa-handshake"></i>
+                </div>
+
+                <div>
+                    <h3>شراكة مع غرسة</h3>
+                    <p>معًا نصنع أثرًا يدوم</p>
+                </div>
+
+            </div>
+
+            <button class="modal-close" onclick="closeModal('partnerModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="instructions">
+
+            <strong>كيف يمكن لمؤسستك المشاركة؟</strong>
+
+            يمكن للشركات والمؤسسات المساهمة في نجاح «غرسة»
+            من خلال توفير الأشجار والنباتات، أو أدوات ومستلزمات النظافة،
+            أو دعم الحملات، أو توفير المتطوعين والموارد البشرية،
+            أو تقديم الدعم اللوجستي، أو رعاية مبادرات ومواقع محددة،
+            أو المساهمة في تشجير وتجميل الأماكن بعد تنظيفها،
+            وذلك بالتنسيق مع الجهات المختصة.
+
+        </div>
+
+
+        <form id="partnerForm">
+
+            <div class="form-group">
+
+                <label>اسم الشركة / المؤسسة</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="partnerName"
+                    placeholder="اكتب اسم الشركة أو المؤسسة"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>رقم التواصل</label>
+
+                <input
+                    type="tel"
+                    class="form-control"
+                    id="partnerPhone"
+                    placeholder="رقم الهاتف"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>رابط صفحة فيسبوك</label>
+
+                <input
+                    type="url"
+                    class="form-control"
+                    id="partnerFacebook"
+                    placeholder="اختياري"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>مجال أو نوع المساهمة</label>
+
+                <select
+                    class="form-control"
+                    id="partnerContribution"
+                    required
+                >
+
+                    <option value="">اختر نوع المشاركة</option>
+
+                    <option>الدعم المادي أو العيني</option>
+
+                    <option>توفير الأشجار والنباتات</option>
+
+                    <option>توفير أدوات ومستلزمات النظافة</option>
+
+                    <option>المشاركة بالمتطوعين</option>
+
+                    <option>الدعم اللوجستي</option>
+
+                    <option>رعاية مبادرة أو موقع</option>
+
+                    <option>المساهمة في التشجير وتجميل الأماكن</option>
+
+                    <option>شراكة مجتمعية</option>
+
+                    <option>أخرى</option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit" class="btn btn-green submit-btn">
+
+                <i class="fa-solid fa-paper-plane"></i>
+
+                إرسال طلب الشراكة
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PRIVACY
+========================== -->
+
+<div class="modal content-modal" id="privacyModal">
+
+    <div class="modal-box">
+
+        <div class="modal-head">
+
+            <div class="modal-title">
+
+                <div class="icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+
+                <div>
+                    <h3>سياسة الخصوصية</h3>
+                    <p>حماية بيانات المشاركين</p>
+                </div>
+
+            </div>
+
+            <button class="modal-close" onclick="closeModal('privacyModal')">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+        </div>
+
+
+        <div class="content-body">
+
+            <p>
+                نحترم خصوصية جميع مستخدمي «غرسة»، ونسعى إلى التعامل
+                مع البيانات التي يتم إرسالها من خلال الموقع بطريقة مسؤولة.
+            </p>
+
+            <h4>البيانات التي يتم جمعها</h4>
+
+            <p>
+                قد يتم جمع البيانات التي يختار المستخدم إرسالها، مثل
+                بيانات التواصل الخاصة بطلبات التطوع والشراكة،
+                والصور والمعلومات المتعلقة بالأماكن غير النظيفة.
+            </p>
+
+            <h4>استخدام البيانات</h4>
+
+            <p>
+                تستخدم البيانات بهدف إدارة المبادرة، ومراجعة البلاغات،
+                والتواصل مع المتطوعين والشركاء، وتنظيم عمليات المتابعة.
+            </p>
+
+            <h4>حماية البيانات</h4>
+
+            <p>
+                تسعى إدارة «غرسة» إلى اتخاذ الإجراءات التقنية والتنظيمية
+                المناسبة لحماية البيانات من الوصول غير المصرح به.
+            </p>
+
+            <h4>ملاحظة</h4>
+
+            <p>
+                هذه الصفحة تمثل سياسة أولية للنسخة التجريبية من المشروع،
+                وسيتم تحديثها عند إطلاق النسخة الرسمية وربط الموقع
+                بقاعدة البيانات والخدمات السحابية.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     TOAST
+========================== -->
+
+<div class="toast-container" id="toastContainer"></div>
+
+
+<!-- =========================
+     ADMIN LOGIN
+========================== -->
+
+<div class="admin-page" id="adminPage">
+
+    <div class="admin-login">
+
+        <div class="admin-login-logo">
+            <i class="fa-solid fa-lock"></i>
+        </div>
+
+        <h2>لوحة الإدارة</h2>
+
+        <p>
+            الدخول مخصص لإدارة مشروع غرسة
+        </p>
+
+
+        <form id="adminLoginForm">
+
+            <div class="form-group">
+
+                <label>اسم المستخدم</label>
+
+                <input
+                    type="text"
+                    class="form-control"
+                    id="adminUsername"
+                    autocomplete="username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>كلمة المرور</label>
+
+                <input
+                    type="password"
+                    class="form-control"
+                    id="adminPassword"
+                    autocomplete="current-password"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit" class="btn btn-green submit-btn">
+    <i class="fa-solid fa-right-to-bracket"></i>
+    دخول الإدارة
+</button>
+
+        </form>
+
+
+        <button
+            class="btn"
+            style="width:100%; margin-top:10px; background:#f1f5f2;"
+            onclick="showMainWebsite()"
+        >
+            العودة للموقع
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     ADMIN DASHBOARD
+========================== -->
+
+<div id="adminDashboard">
+
+    <div class="admin-header">
+
+        <div class="admin-header-inner">
+
+            <div class="admin-brand">
+
+                <span>
+                    <i class="fa-solid fa-seedling"></i>
+                </span>
+
+                لوحة إدارة غرسة
+
+            </div>
+
+            <button class="admin-logout" onclick="adminLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                تسجيل الخروج
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <main class="admin-main">
+
+        <div class="dashboard-title">
+
+            <h1>مرحبًا بك في الإدارة</h1>
+
+            <p>
+                من هنا يمكنك متابعة البلاغات وطلبات التطوع والشراكة.
+            </p>
+
+        </div>
+
+
+        <div class="dashboard-stats">
+
+            <div class="dash-stat">
+                <i class="fa-solid fa-camera"></i>
+                <strong id="dashReports">0</strong>
+                <span>البلاغات</span>
+            </div>
+
+            <div class="dash-stat">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                <strong id="dashVolunteers">0</strong>
+                <span>المتطوعون</span>
+            </div>
+
+            <div class="dash-stat">
+                <i class="fa-solid fa-handshake"></i>
+                <strong id="dashPartners">0</strong>
+                <span>طلبات الشراكة</span>
+            </div>
+
+            <div class="dash-stat">
+                <i class="fa-solid fa-seedling"></i>
+                <strong id="dashApprovedPartners">0</strong>
+                <span>الشركاء</span>
+            </div>
+
+        </div>
+
+
+        <div class="admin-tabs">
+
+            <button class="admin-tab active" onclick="switchAdminTab('reports', this)">
+                <i class="fa-solid fa-camera"></i>
+                البلاغات
+            </button>
+
+            <button class="admin-tab" onclick="switchAdminTab('volunteers', this)">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                طلبات التطوع
+            </button>
+
+            <button class="admin-tab" onclick="switchAdminTab('partnersRequests', this)">
+                <i class="fa-solid fa-handshake"></i>
+                طلبات الشراكة
+            </button>
+
+            <button class="admin-tab" onclick="switchAdminTab('partners', this)">
+                <i class="fa-solid fa-users"></i>
+                قائمة الشركاء
+            </button>
+
+        </div>
+
+
+        <!-- Reports -->
+        <div class="admin-panel" id="panel-reports">
+
+            <div class="panel-head">
+                <h3>بلاغات الأماكن</h3>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>رقم</th>
+                            <th>التاريخ</th>
+                            <th>الوصف</th>
+                            <th>الموقع</th>
+                            <th>الحالة</th>
+                            <th>الإجراء</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="reportsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- Volunteers -->
+        <div class="admin-panel" id="panel-volunteers" style="display:none;">
+
+            <div class="panel-head">
+                <h3>طلبات التطوع</h3>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>الاسم</th>
+                            <th>الهاتف</th>
+                            <th>السن</th>
+                            <th>المؤهل</th>
+                            <th>التفرغ</th>
+                            <th>الحالة</th>
+                            <th>الإجراء</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="volunteersTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- Partner Requests -->
+        <div class="admin-panel" id="panel-partnersRequests" style="display:none;">
+
+            <div class="panel-head">
+                <h3>طلبات الشراكة</h3>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>الشركة / المؤسسة</th>
+                            <th>التواصل</th>
+                            <th>فيسبوك</th>
+                            <th>نوع المشاركة</th>
+                            <th>الحالة</th>
+                            <th>الإجراء</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="partnersRequestsTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- Partners -->
+        <div class="admin-panel" id="panel-partners" style="display:none;">
+
+            <div class="panel-head">
+
+                <h3>قائمة شركاء غرسة</h3>
+
+                <button class="small-action" onclick="addPartner()">
+                    <i class="fa-solid fa-plus"></i>
+                    إضافة شريك
+                </button>
+
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>الشركة / المؤسسة</th>
+                            <th>التواصل</th>
+                            <th>مجال المشاركة</th>
+                            <th>الإجراء</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="partnersTable"></tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+/* =====================================================
+   غرسة — Firebase Edition
+   =====================================================
+   قبل التشغيل:
+   1) أنشئ مشروع Firebase.
+   2) ضع بيانات Firebase Config في الأسفل.
+   3) فعّل Authentication > Email/Password.
+   4) أنشئ مستخدم الإدارة من Authentication > Users.
+   5) أنشئ Firestore Database.
+   6) الصور يتم رفعها إلى Cloudinary، ولا نحتاج إلى Firebase Storage.
+*/
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDCglMDyvOK6_yr1wOueJC_EfS0jdIjF7M",
+    authDomain: "garsa-68cbb.firebaseapp.com",
+    projectId: "garsa-68cbb",
+    storageBucket: "garsa-68cbb.firebasestorage.app",
+    messagingSenderId: "821203092664",
+    appId: "1:821203092664:web:d2cad5b45e66a3ae98204d"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+// Cloudinary — رفع الصور مباشرة من المتصفح
+const CLOUDINARY_CLOUD_NAME = "cmrprk8k";
+const CLOUDINARY_UPLOAD_PRESET = "gharsa_upload";
+const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+
+const COLLECTIONS = {
+    reports: "reports",
+    volunteers: "volunteer_requests",
+    partnerRequests: "partnership_requests",
+    partners: "partners"
+};
+
+/* =====================================================
+   INITIALIZATION
+===================================================== */
+window.addEventListener("load", async function () {
+    setTimeout(function () {
+        document.getElementById("loader").classList.add("hide");
+    }, 800);
+
+    await updateStatistics();
+});
+
+window.addEventListener("scroll", function () {
+    const header = document.getElementById("header");
+    if (window.scrollY > 30) header.classList.add("scrolled");
+    else header.classList.remove("scrolled");
+});
+
+/* =====================================================
+   SIDE MENU
+===================================================== */
+function openSideMenu() {
+    document.getElementById("sideMenu").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+}
+function closeSideMenu() {
+    document.getElementById("sideMenu").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+}
+
+/* =====================================================
+   MODALS
+===================================================== */
+function openModal(id) {
+    document.getElementById(id).classList.add("active");
+    document.body.style.overflow = "hidden";
+}
+function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+    if (!document.querySelector(".modal.active")) document.body.style.overflow = "";
+}
+function closeAllModals() {
+    document.querySelectorAll(".modal").forEach(function (modal) {
+        modal.classList.remove("active");
+    });
+    document.body.style.overflow = "";
+}
+document.querySelectorAll(".modal").forEach(function (modal) {
+    modal.addEventListener("click", function (e) {
+        if (e.target === modal) closeModal(modal.id);
+    });
+});
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+        closeAllModals();
+        closeSideMenu();
+    }
+});
+
+function openDirtyPlace() { openModal("dirtyModal"); }
+function openVolunteer() { openModal("volunteerModal"); }
+function openPartners() { openModal("partnerModal"); }
+function openPrivacy() { openModal("privacyModal"); }
+
+/* =====================================================
+   IMAGE PREVIEW
+===================================================== */
+function previewImage(input) {
+    const preview = document.getElementById("imagePreview");
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = "block";
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+/* =====================================================
+   TOAST
+===================================================== */
+function showToast(title, message, type = "success") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = "toast " + type;
+    toast.innerHTML = `
+        <i class="fa-solid ${type === "success" ? "fa-circle-check" : "fa-circle-exclamation"}"></i>
+        <div>
+            <strong>${escapeHtml(title)}</strong>
+            <small>${escapeHtml(message)}</small>
+        </div>`;
+    container.appendChild(toast);
+    setTimeout(function () {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateX(-20px)";
+        setTimeout(function () { toast.remove(); }, 300);
+    }, 4000);
+}
+
+function showFirebaseError(error) {
+    console.error(error);
+    let message = "حدث خطأ أثناء الاتصال بقاعدة البيانات.";
+    if (error && error.message && error.message.includes("Cloudinary")) message = error.message;
+    if (error && error.code === "permission-denied") message = "لا توجد صلاحية لتنفيذ العملية. راجع قواعد Firestore.";
+    if (error && error.code === "auth/invalid-credential") message = "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+    showToast("حدث خطأ", message, "error");
+}
+
+/* =====================================================
+   LOCATION — GPS + ADDRESS + GOOGLE MAPS
+===================================================== */
+function setLocationStatus(message, type = "info") {
+    const el = document.getElementById("locationStatus");
+    if (!el) return;
+    el.style.display = "block";
+    el.textContent = message;
+    el.style.color = type === "error" ? "#b42318" : "var(--muted)";
+}
+
+function openGoogleMapsPicker() {
+    const lat = document.getElementById("placeLatitude").value;
+    const lng = document.getElementById("placeLongitude").value;
+
+    if (lat && lng) {
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lat + "," + lng)}`, "_blank", "noopener");
+        return;
+    }
+
+    window.open("https://www.google.com/maps", "_blank", "noopener");
+    setLocationStatus("بعد تحديد المكان في Google Maps، اضغط مرة أخرى على استخدام موقعي الحالي لتثبيت موقع GPS في البلاغ.");
+}
+
+async function reverseGeocode(lat, lng) {
+    try {
+        // خدمة مجانية لإرجاع عنوان تقريبي من الإحداثيات، ولا تحتاج مفتاح API.
+        const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${encodeURIComponent(lat)}&longitude=${encodeURIComponent(lng)}&localityLanguage=ar`;
+        const response = await fetch(url, { method: "GET" });
+        if (!response.ok) throw new Error("reverse geocoding failed");
+
+        const data = await response.json();
+        const parts = [];
+        if (data.localityInfo?.administrative) {
+            data.localityInfo.administrative.forEach(item => {
+                if (item.name && !parts.includes(item.name)) parts.push(item.name);
+            });
+        }
+        [data.locality, data.city, data.principalSubdivision, data.countryName].forEach(item => {
+            if (item && !parts.includes(item)) parts.push(item);
+        });
+
+        return parts.slice(0, 5).join("، ") || data.display_name || "تم تحديد الموقع على الخريطة";
+    } catch (error) {
+        console.warn("Reverse geocoding unavailable:", error);
+        return "تم تحديد الموقع عبر GPS — اضغط على رابط Google Maps لعرض المكان";
+    }
+}
+
+function getCurrentLocation() {
+    const btn = document.getElementById("getLocationBtn");
+
+    if (!navigator.geolocation) {
+        setLocationStatus("هذا الجهاز أو المتصفح لا يدعم تحديد الموقع.", "error");
+        return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ تحديد موقعك...';
+    setLocationStatus("يرجى السماح للموقع عند ظهور رسالة الصلاحية...");
+
+    navigator.geolocation.getCurrentPosition(async function(position) {
+        const lat = Number(position.coords.latitude.toFixed(7));
+        const lng = Number(position.coords.longitude.toFixed(7));
+        const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(lat + "," + lng)}`;
+
+        document.getElementById("placeLatitude").value = lat;
+        document.getElementById("placeLongitude").value = lng;
+        document.getElementById("placeMapsUrl").value = mapsUrl;
+
+        setLocationStatus("تم تحديد الموقع. جارٍ جلب العنوان تلقائيًا...");
+
+        const address = await reverseGeocode(lat, lng);
+        document.getElementById("placeLocation").value = address;
+
+        const mapsLink = document.getElementById("placeMapsLink");
+        mapsLink.href = mapsUrl;
+        mapsLink.style.display = "inline-flex";
+
+        setLocationStatus(`تم تحديد الموقع بنجاح: ${address}`);
+        btn.innerHTML = '<i class="fa-solid fa-circle-check"></i> تم تحديد الموقع';
+        btn.disabled = false;
+    }, function(error) {
+        let message = "تعذر تحديد موقعك.";
+        if (error.code === 1) message = "تم رفض صلاحية الموقع. فعّل إذن الموقع للمتصفح ثم حاول مرة أخرى.";
+        else if (error.code === 2) message = "لم يتم العثور على الموقع. تأكد من تشغيل GPS ثم حاول مرة أخرى.";
+        else if (error.code === 3) message = "انتهت مهلة تحديد الموقع. حاول مرة أخرى.";
+
+        setLocationStatus(message, "error");
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> استخدام موقعي الحالي';
+    }, {
+        enableHighAccuracy: true,
+        timeout: 20000,
+        maximumAge: 0
+    });
+}
+
+/* =====================================================
+   DIRTY PLACE FORM — CLOUDINARY + FIRESTORE
+===================================================== */
+document.getElementById("dirtyForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById("placeImage");
+    const location = document.getElementById("placeLocation").value.trim();
+    const latitude = document.getElementById("placeLatitude").value;
+    const longitude = document.getElementById("placeLongitude").value;
+    const mapsUrl = document.getElementById("placeMapsUrl").value;
+
+    if (!fileInput.files.length) {
+        showToast("الصورة مطلوبة", "يرجى اختيار صورة للمكان.", "error");
+        return;
+    }
+
+    if (!latitude || !longitude || !mapsUrl || !location) {
+        showToast("حدد موقع المكان", "اضغط أولًا على «استخدام موقعي الحالي» حتى يتم تسجيل العنوان والموقع على الخريطة.", "error");
+        return;
+    }
+
+    const file = fileInput.files[0];
+    if (!file.type.startsWith("image/")) {
+        showToast("ملف غير صالح", "يرجى اختيار صورة فقط.", "error");
+        return;
+    }
+    if (file.size > 10 * 1024 * 1024) {
+        showToast("الصورة كبيرة", "الحد الأقصى لحجم الصورة 10 ميجابايت.", "error");
+        return;
+    }
+
+    const submitBtn = this.querySelector("button[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ رفع الصورة...';
+
+    try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+        const cloudinaryResponse = await fetch(CLOUDINARY_UPLOAD_URL, {
+            method: "POST",
+            body: formData
+        });
+
+        let cloudinaryData = null;
+        try {
+            cloudinaryData = await cloudinaryResponse.json();
+        } catch (_) {}
+
+        if (!cloudinaryResponse.ok || !cloudinaryData || !cloudinaryData.secure_url) {
+            console.error("Cloudinary upload error:", cloudinaryData);
+            throw new Error("تعذر رفع الصورة إلى Cloudinary. تأكد من أن Upload Preset باسم gharsa_upload مضبوط على Unsigned.");
+        }
+
+        const imageUrl = cloudinaryData.secure_url;
+
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ حفظ البلاغ...';
+
+        await db.collection(COLLECTIONS.reports).add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            date: new Date().toLocaleString("ar-EG"),
+            description: document.getElementById("placeDescription").value.trim(),
+            location: location,
+            latitude: Number(latitude),
+            longitude: Number(longitude),
+            mapsUrl: mapsUrl,
+            image: imageUrl,
+            imagePublicId: cloudinaryData.public_id || "",
+            imageProvider: "cloudinary",
+            status: "جديد"
+        });
+
+        this.reset();
+        document.getElementById("imagePreview").style.display = "none";
+        document.getElementById("imagePreview").removeAttribute("src");
+        document.getElementById("locationStatus").style.display = "none";
+        document.getElementById("placeMapsLink").style.display = "none";
+        document.getElementById("placeMapsLink").removeAttribute("href");
+        document.getElementById("getLocationBtn").innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> استخدام موقعي الحالي';
+        closeModal("dirtyModal");
+        await updateStatistics();
+        showToast("تم إرسال البلاغ", "شكرًا لمساهمتك. تم حفظ العنوان والموقع على Google Maps مع صورة البلاغ.");
+    } catch (error) {
+        showFirebaseError(error);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال البلاغ إلى الإدارة';
+    }
+});
+
+/* =====================================================
+   VOLUNTEER FORM
+===================================================== */
+document.getElementById("volunteerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector("button[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ الإرسال...';
+
+    try {
+        await db.collection(COLLECTIONS.volunteers).add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            date: new Date().toLocaleString("ar-EG"),
+            name: document.getElementById("volunteerName").value.trim(),
+            phone: document.getElementById("volunteerPhone").value.trim(),
+            age: document.getElementById("volunteerAge").value.trim(),
+            qualification: document.getElementById("volunteerQualification").value.trim(),
+            availability: document.getElementById("volunteerAvailability").value.trim(),
+            status: "جديد"
+        });
+        this.reset();
+        closeModal("volunteerModal");
+        await updateStatistics();
+        showToast("تم إرسال طلب التطوع", "شكرًا لك. ستقوم الإدارة بمراجعة طلبك والتواصل معك.");
+    } catch (error) {
+        showFirebaseError(error);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال طلب التطوع';
+    }
+});
+
+/* =====================================================
+   PARTNER FORM
+===================================================== */
+document.getElementById("partnerForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const submitBtn = this.querySelector("button[type='submit']");
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جارٍ الإرسال...';
+
+    try {
+        await db.collection(COLLECTIONS.partnerRequests).add({
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            date: new Date().toLocaleString("ar-EG"),
+            name: document.getElementById("partnerName").value.trim(),
+            phone: document.getElementById("partnerPhone").value.trim(),
+            facebook: document.getElementById("partnerFacebook").value.trim(),
+            contribution: document.getElementById("partnerContribution").value,
+            status: "جديد"
+        });
+        this.reset();
+        closeModal("partnerModal");
+        await updateStatistics();
+        showToast("تم إرسال طلب الشراكة", "شكرًا لاهتمامكم. ستقوم الإدارة بمراجعة الطلب والتواصل معكم.");
+    } catch (error) {
+        showFirebaseError(error);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال طلب الشراكة';
+    }
+});
+
+/* =====================================================
+   STATISTICS
+===================================================== */
+async function countCollection(name) {
+    const snap = await db.collection(name).get();
+    return snap.size;
+}
+
+async function updateStatistics() {
+    try {
+        const [reports, volunteers, partnerRequests] = await Promise.all([
+            countCollection(COLLECTIONS.reports),
+            countCollection(COLLECTIONS.volunteers),
+            countCollection(COLLECTIONS.partnerRequests)
+        ]);
+        document.getElementById("statReports").textContent = reports;
+        document.getElementById("statVolunteers").textContent = volunteers;
+        document.getElementById("statPartners").textContent = partnerRequests;
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+/* =====================================================
+   ADMIN ACCESS
+   الدخول السري ما زال عبر الضغط على الشعار 5 مرات.
+   الحماية الحقيقية أصبحت Firebase Authentication.
+===================================================== */
+function openAdmin() {
+    document.getElementById("mainWebsite").style.display = "none";
+    document.getElementById("adminPage").style.display = "flex";
+    document.getElementById("adminDashboard").style.display = "none";
+    window.scrollTo(0, 0);
+}
+
+function showMainWebsite() {
+    document.getElementById("adminPage").style.display = "none";
+    document.getElementById("adminDashboard").style.display = "none";
+    document.getElementById("mainWebsite").style.display = "block";
+}
+
+document.getElementById("adminLoginForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("adminUsername").value.trim();
+    const password = document.getElementById("adminPassword").value;
+    const btn = this.querySelector("button[type='submit']");
+    btn.disabled = true;
+
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        document.getElementById("adminPage").style.display = "none";
+        document.getElementById("adminDashboard").style.display = "block";
+        await loadDashboard();
+        showToast("تم تسجيل الدخول", "مرحبًا بك في لوحة إدارة غرسة.");
+    } catch (error) {
+        showFirebaseError(error);
+    } finally {
+        btn.disabled = false;
+    }
+});
+
+auth.onAuthStateChanged(async function (user) {
+    if (user) {
+        console.log("Admin authenticated:", user.email);
+    }
+});
+
+/* =====================================================
+   ADMIN DASHBOARD
+===================================================== */
+async function loadDashboard() {
+    if (!auth.currentUser) return;
+    try {
+        const [reports, volunteers, requests, partners] = await Promise.all([
+            db.collection(COLLECTIONS.reports).get(),
+            db.collection(COLLECTIONS.volunteers).get(),
+            db.collection(COLLECTIONS.partnerRequests).get(),
+            db.collection(COLLECTIONS.partners).get()
+        ]);
+
+        document.getElementById("dashReports").textContent = reports.size;
+        document.getElementById("dashVolunteers").textContent = volunteers.size;
+        document.getElementById("dashPartners").textContent = requests.size;
+        document.getElementById("dashApprovedPartners").textContent = partners.size;
+
+        renderReports(reports);
+        renderVolunteers(volunteers);
+        renderPartnerRequests(requests);
+        renderPartners(partners);
+    } catch (error) {
+        showFirebaseError(error);
+    }
+}
+
+function activateTab(tab) {
+    document.querySelectorAll(".admin-tab").forEach(function (btn) { btn.classList.remove("active"); });
+    document.querySelectorAll(".admin-panel").forEach(function (panel) { panel.style.display = "none"; });
+    const button = document.querySelector('.admin-tab[data-tab="' + tab + '"]');
+    const panel = document.getElementById("panel-" + tab);
+    if (button) button.classList.add("active");
+    if (panel) panel.style.display = "block";
+}
+
+/* بعض النسخ القديمة من HTML لا تحمل data-tab، لذلك نبحث بالنص أيضًا */
+document.querySelectorAll(".admin-tab").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+        document.querySelectorAll(".admin-tab").forEach(b => b.classList.remove("active"));
+        document.querySelectorAll(".admin-panel").forEach(p => p.style.display = "none");
+        btn.classList.add("active");
+        const text = btn.textContent.trim();
+        if (text.includes("البلاغات")) document.getElementById("panel-reports").style.display = "block";
+        else if (text.includes("التطوع")) document.getElementById("panel-volunteers").style.display = "block";
+        else if (text.includes("طلبات الشراكة")) document.getElementById("panel-partnersRequests").style.display = "block";
+        else if (text.includes("قائمة الشركاء")) document.getElementById("panel-partners").style.display = "block";
+    });
+});
+
+/* =====================================================
+   RENDER REPORTS
+===================================================== */
+function renderReports(snapshot) {
+    const table = document.getElementById("reportsTable");
+    table.innerHTML = "";
+    if (snapshot.empty) {
+        table.innerHTML = '<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-camera"></i>لا توجد بلاغات حتى الآن</div></td></tr>';
+        return;
+    }
+    snapshot.forEach(function (doc) {
+        const item = { id: doc.id, ...doc.data() };
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>#${escapeHtml(item.id.slice(-6))}</td>
+            <td>${escapeHtml(item.date)}</td>
+            <td>${escapeHtml(item.description)}</td>
+            <td>${escapeHtml(item.location)}</td>
+            <td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td>
+            <td>
+                <button class="small-action" onclick="changeReportStatus('${escapeAttribute(item.id)}')">تغيير الحالة</button>
+                ${item.image ? `<button class="small-action" onclick="viewImage('${escapeAttribute(item.image)}')">الصورة</button>` : ""}
+            </td>`;
+        table.appendChild(row);
+    });
+}
+
+async function changeReportStatus(id) {
+    if (!auth.currentUser) return;
+    const statuses = ["جديد", "تمت المراجعة", "جاري التعامل", "تم التنظيف", "تم تحويله لمساحة خضراء"];
+    try {
+        const ref = db.collection(COLLECTIONS.reports).doc(id);
+        const snap = await ref.get();
+        if (!snap.exists) return;
+        const current = statuses.indexOf(snap.data().status);
+        await ref.update({ status: statuses[(current + 1) % statuses.length] });
+        await loadDashboard();
+        showToast("تم تحديث الحالة", "تم تغيير حالة البلاغ.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+function viewImage(url) {
+    if (!url) return;
+    const newWindow = window.open();
+    if (!newWindow) return;
+    newWindow.document.write(`
+        <title>صورة البلاغ</title>
+        <style>body{margin:0;background:#102d20;display:flex;align-items:center;justify-content:center;min-height:100vh}img{max-width:95%;max-height:95vh;border-radius:15px}</style>
+        <img src="${escapeAttribute(url)}">`);
+}
+
+/* =====================================================
+   RENDER VOLUNTEERS
+===================================================== */
+function renderVolunteers(snapshot) {
+    const table = document.getElementById("volunteersTable");
+    table.innerHTML = "";
+    if (snapshot.empty) {
+        table.innerHTML = '<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-users"></i>لا توجد طلبات تطوع حتى الآن</div></td></tr>';
+        return;
+    }
+    snapshot.forEach(function (doc) {
+        const item = { id: doc.id, ...doc.data() };
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${escapeHtml(item.name)}</td>
+            <td>${escapeHtml(item.phone)}</td>
+            <td>${escapeHtml(item.age)}</td>
+            <td>${escapeHtml(item.qualification)}</td>
+            <td>${escapeHtml(item.availability)}</td>
+            <td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td>
+            <td><button class="small-action" onclick="changeVolunteerStatus('${escapeAttribute(item.id)}')">تغيير الحالة</button></td>`;
+        table.appendChild(row);
+    });
+}
+
+async function changeVolunteerStatus(id) {
+    try {
+        const ref = db.collection(COLLECTIONS.volunteers).doc(id);
+        const snap = await ref.get();
+        if (!snap.exists) return;
+        const old = snap.data().status;
+        const next = old === "جديد" ? "تمت المراجعة" : old === "تمت المراجعة" ? "تم التواصل" : "جديد";
+        await ref.update({ status: next });
+        await loadDashboard();
+        showToast("تم تحديث الطلب", "تم تغيير حالة طلب التطوع.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+/* =====================================================
+   RENDER PARTNER REQUESTS
+===================================================== */
+function renderPartnerRequests(snapshot) {
+    const table = document.getElementById("partnersRequestsTable");
+    table.innerHTML = "";
+    if (snapshot.empty) {
+        table.innerHTML = '<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-handshake"></i>لا توجد طلبات شراكة حتى الآن</div></td></tr>';
+        return;
+    }
+    snapshot.forEach(function (doc) {
+        const item = { id: doc.id, ...doc.data() };
+        const facebook = item.facebook ? `<a href="${escapeAttribute(item.facebook)}" target="_blank" rel="noopener" style="color:#2f7d4b;">فتح الرابط</a>` : "غير متوفر";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${escapeHtml(item.name)}</td>
+            <td>${escapeHtml(item.phone)}</td>
+            <td>${facebook}</td>
+            <td>${escapeHtml(item.contribution)}</td>
+            <td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td>
+            <td>
+                <button class="small-action" onclick="acceptPartnerRequest('${escapeAttribute(item.id)}')">قبول</button>
+                <button class="small-action" onclick="changePartnerRequestStatus('${escapeAttribute(item.id)}')">الحالة</button>
+            </td>`;
+        table.appendChild(row);
+    });
+}
+
+async function changePartnerRequestStatus(id) {
+    try {
+        const ref = db.collection(COLLECTIONS.partnerRequests).doc(id);
+        const snap = await ref.get();
+        if (!snap.exists) return;
+        const old = snap.data().status;
+        const next = old === "جديد" ? "تمت المراجعة" : old === "تمت المراجعة" ? "تم التواصل" : "جديد";
+        await ref.update({ status: next });
+        await loadDashboard();
+        showToast("تم تحديث الطلب", "تم تغيير حالة طلب الشراكة.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+async function acceptPartnerRequest(id) {
+    try {
+        const requestRef = db.collection(COLLECTIONS.partnerRequests).doc(id);
+        const snap = await requestRef.get();
+        if (!snap.exists) return;
+        const item = snap.data();
+        const exists = await db.collection(COLLECTIONS.partners).where("sourceId", "==", id).limit(1).get();
+        if (exists.empty) {
+            await db.collection(COLLECTIONS.partners).add({
+                sourceId: id,
+                name: item.name || "",
+                phone: item.phone || "",
+                facebook: item.facebook || "",
+                contribution: item.contribution || "",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        }
+        await requestRef.update({ status: "تم قبول الشراكة" });
+        await loadDashboard();
+        showToast("تمت إضافة الشريك", "تمت إضافة المؤسسة إلى قائمة الشركاء.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+/* =====================================================
+   PARTNERS
+===================================================== */
+function renderPartners(snapshot) {
+    const table = document.getElementById("partnersTable");
+    table.innerHTML = "";
+    if (snapshot.empty) {
+        table.innerHTML = '<tr><td colspan="4"><div class="empty"><i class="fa-solid fa-handshake"></i>لا توجد مؤسسات في قائمة الشركاء</div></td></tr>';
+        return;
+    }
+    snapshot.forEach(function (doc) {
+        const item = { id: doc.id, ...doc.data() };
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${escapeHtml(item.name)}</td>
+            <td>${escapeHtml(item.phone)}</td>
+            <td>${escapeHtml(item.contribution)}</td>
+            <td>
+                <button class="small-action" onclick="editPartner('${escapeAttribute(item.id)}')">تعديل</button>
+                <button class="small-action" onclick="deletePartner('${escapeAttribute(item.id)}')">حذف</button>
+            </td>`;
+        table.appendChild(row);
+    });
+}
+
+async function addPartner() {
+    const name = prompt("اسم الشركة / المؤسسة:");
+    if (!name) return;
+    const phone = prompt("رقم التواصل:");
+    if (!phone) return;
+    const contribution = prompt("مجال أو نوع المساهمة:");
+    if (!contribution) return;
+    const facebook = prompt("رابط فيسبوك (اختياري):", "") || "";
+    try {
+        await db.collection(COLLECTIONS.partners).add({
+            name, phone, contribution, facebook,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await loadDashboard();
+        showToast("تمت إضافة الشريك", "تمت إضافة الشريك إلى القائمة.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+async function editPartner(id) {
+    try {
+        const ref = db.collection(COLLECTIONS.partners).doc(id);
+        const snap = await ref.get();
+        if (!snap.exists) return;
+        const item = snap.data();
+        const name = prompt("اسم الشركة / المؤسسة:", item.name || "");
+        if (!name) return;
+        const phone = prompt("رقم التواصل:", item.phone || "");
+        if (!phone) return;
+        const contribution = prompt("مجال أو نوع المساهمة:", item.contribution || "");
+        if (!contribution) return;
+        const facebook = prompt("رابط فيسبوك (اختياري):", item.facebook || "") || "";
+        await ref.update({ name, phone, contribution, facebook });
+        await loadDashboard();
+        showToast("تم التعديل", "تم تعديل بيانات الشريك.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+async function deletePartner(id) {
+    if (!confirm("هل أنت متأكد من حذف هذا الشريك؟")) return;
+    try {
+        await db.collection(COLLECTIONS.partners).doc(id).delete();
+        await loadDashboard();
+        showToast("تم الحذف", "تم حذف الشريك من القائمة.");
+    } catch (error) { showFirebaseError(error); }
+}
+
+/* =====================================================
+   ADMIN LOGOUT
+===================================================== */
+async function adminLogout() {
+    try { await auth.signOut(); } catch (e) { console.error(e); }
+    document.getElementById("adminDashboard").style.display = "none";
+    document.getElementById("adminPage").style.display = "none";
+    document.getElementById("mainWebsite").style.display = "block";
+    window.scrollTo(0, 0);
+}
+
+/* =====================================================
+   SECRET ADMIN ACCESS
+===================================================== */
+let adminClicks = 0;
+let adminClickTimer = null;
+document.querySelector(".logo").addEventListener("click", function () {
+    adminClicks++;
+    clearTimeout(adminClickTimer);
+    adminClickTimer = setTimeout(function () { adminClicks = 0; }, 1200);
+    if (adminClicks >= 5) {
+        adminClicks = 0;
+        openAdmin();
+    }
+});
+
+/* =====================================================
+   UTILITIES
+===================================================== */
+function statusClass(status) {
+    if (status === "جديد") return "new";
+    if (status === "تمت المراجعة" || status === "تم التواصل") return "review";
+    return "done";
+}
+function escapeHtml(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+function escapeAttribute(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+}
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+</script>
+
+</body>
+</html>

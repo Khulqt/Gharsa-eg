@@ -494,7 +494,7 @@
             text-align: center;
         }
 
-        .big-tree {
+         .big-tree {
       color: #2e8b57;
     position: relative;
     z-index: 2;
@@ -1129,6 +1129,32 @@
             .achievement-admin-form .full { grid-column:auto; }
         }
         @keyframes achievementIn { from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:translateY(0)} }
+
+        /* ADMIN PRO TOOLS */
+        .admin-main { max-width: 1500px; }
+        .admin-toolbar { padding:14px 18px; background:#fbfdfb; border-bottom:1px solid var(--border); display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+        .admin-toolbar .form-control { max-width:320px; min-width:210px; }
+        .admin-toolbar select.form-control { cursor:pointer; }
+        .toolbar-label { color:var(--muted); font-size:12px; font-weight:700; }
+        .export-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; padding:20px; }
+        .export-card { border:1px solid var(--border); border-radius:18px; padding:22px; background:#fff; box-shadow:0 8px 25px rgba(25,60,40,.05); }
+        .export-card i { font-size:25px; color:var(--green); margin-bottom:12px; }
+        .export-card h4 { color:var(--green-dark); margin-bottom:7px; }
+        .export-card p { color:var(--muted); font-size:12px; line-height:1.8; margin-bottom:15px; }
+        .export-card .btn { width:100%; }
+        .floating-code-overlay { position:fixed; inset:0; background:rgba(9,35,23,.48); backdrop-filter:blur(5px); z-index:10000; display:none; align-items:center; justify-content:center; padding:20px; }
+        .floating-code-overlay.active { display:flex; animation:fadeCode .25s ease; }
+        .floating-code-card { width:min(460px,100%); background:#fff; border-radius:26px; padding:30px; text-align:center; box-shadow:0 25px 80px rgba(0,0,0,.25); position:relative; }
+        .floating-code-icon { width:68px; height:68px; border-radius:20px; background:var(--green-soft); color:var(--green); display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:28px; }
+        .floating-code-card h3 { color:var(--green-dark); margin-bottom:8px; }
+        .floating-code-card p { color:var(--muted); font-size:13px; line-height:1.8; }
+        .tracking-code-box { direction:ltr; display:flex; align-items:center; gap:8px; background:#f5f9f6; border:1px dashed #b9d2c0; border-radius:15px; padding:9px; margin:18px 0; }
+        .tracking-code-box strong { flex:1; font-size:22px; letter-spacing:2px; color:var(--green-dark); }
+        .copy-code-btn { border:0; background:var(--green); color:#fff; width:44px; height:44px; border-radius:12px; cursor:pointer; }
+        .floating-code-actions { display:flex; gap:9px; justify-content:center; flex-wrap:wrap; }
+        @keyframes fadeCode { from{opacity:0} to{opacity:1} }
+        @media (max-width:900px){ .export-grid{grid-template-columns:repeat(2,1fr)} }
+        @media (max-width:600px){ .export-grid{grid-template-columns:1fr} .admin-toolbar .form-control{max-width:none;width:100%} .tracking-code-box strong{font-size:18px} }
 
         /* =========================
            ADMIN LOGIN
@@ -2783,6 +2809,11 @@
                 إعدادات المشروع
             </button>
 
+            <button class="admin-tab" onclick="switchAdminTab('exports', this)">
+                <i class="fa-solid fa-file-export"></i>
+                تحميل البيانات
+            </button>
+
         </div>
 
 
@@ -2791,6 +2822,12 @@
 
             <div class="panel-head">
                 <h3>بلاغات الأماكن</h3>
+                <span class="admin-mini-note" id="reportsCountLabel">0 بلاغ</span>
+            </div>
+            <div class="admin-toolbar">
+                <input class="form-control" id="reportsSearch" oninput="applyAdminFilters('reports')" placeholder="ابحث بالكود أو الموقع أو الوصف...">
+                <select class="form-control" id="reportsStatusFilter" onchange="applyAdminFilters('reports')"><option value="">كل الحالات</option><option>تحت المراجعة</option><option>مقبول</option><option>مرفوض</option><option>جاري التنفيذ</option><option>تم التنفيذ</option></select>
+                <select class="form-control" id="reportsSort" onchange="applyAdminFilters('reports')"><option value="newest">الأحدث أولًا</option><option value="oldest">الأقدم أولًا</option><option value="status">حسب الحالة</option></select>
             </div>
 
             <div class="table-wrapper">
@@ -2824,6 +2861,12 @@
 
             <div class="panel-head">
                 <h3>طلبات التطوع</h3>
+                <span class="admin-mini-note" id="volunteersCountLabel">0 طلب</span>
+            </div>
+            <div class="admin-toolbar">
+                <input class="form-control" id="volunteersSearch" oninput="applyAdminFilters('volunteers')" placeholder="ابحث بالاسم أو الهاتف أو المؤهل...">
+                <select class="form-control" id="volunteersStatusFilter" onchange="applyAdminFilters('volunteers')"><option value="">كل الحالات</option><option>جديد</option><option>تحت المراجعة</option><option>مقبول</option><option>مرفوض</option></select>
+                <select class="form-control" id="volunteersSort" onchange="applyAdminFilters('volunteers')"><option value="newest">الأحدث أولًا</option><option value="oldest">الأقدم أولًا</option><option value="name">حسب الاسم</option></select>
             </div>
 
             <div class="table-wrapper">
@@ -2858,6 +2901,12 @@
 
             <div class="panel-head">
                 <h3>طلبات الشراكة</h3>
+                <span class="admin-mini-note" id="partnerRequestsCountLabel">0 طلب</span>
+            </div>
+            <div class="admin-toolbar">
+                <input class="form-control" id="partnerRequestsSearch" oninput="applyAdminFilters('partnerRequests')" placeholder="ابحث باسم الشركة أو الهاتف...">
+                <select class="form-control" id="partnerRequestsStatusFilter" onchange="applyAdminFilters('partnerRequests')"><option value="">كل الحالات</option><option>جديد</option><option>تحت المراجعة</option><option>مقبول</option><option>مرفوض</option><option>تم قبول الشراكة</option></select>
+                <select class="form-control" id="partnerRequestsSort" onchange="applyAdminFilters('partnerRequests')"><option value="newest">الأحدث أولًا</option><option value="oldest">الأقدم أولًا</option><option value="name">حسب الاسم</option></select>
             </div>
 
             <div class="table-wrapper">
@@ -2944,6 +2993,16 @@
             </div>
         </div>
 
+        <div class="admin-panel" id="panel-exports" style="display:none;">
+            <div class="panel-head"><div><h3>تحميل بيانات المشروع</h3><div class="admin-mini-note">تحميل نسخة CSV من البيانات الموجودة في Firebase للاحتفاظ بها أو فتحها في Excel.</div></div></div>
+            <div class="export-grid">
+                <div class="export-card"><i class="fa-solid fa-camera"></i><h4>البلاغات</h4><p>تحميل جميع البلاغات مع كود المتابعة والموقع والحالة والتاريخ.</p><button class="btn btn-green" onclick="exportCollection('reports')">تحميل البلاغات CSV</button></div>
+                <div class="export-card"><i class="fa-solid fa-hand-holding-heart"></i><h4>المتطوعون</h4><p>تحميل جميع طلبات التطوع وبيانات التواصل والحالة.</p><button class="btn btn-green" onclick="exportCollection('volunteers')">تحميل المتطوعين CSV</button></div>
+                <div class="export-card"><i class="fa-solid fa-handshake"></i><h4>طلبات الشراكة</h4><p>تحميل طلبات الشراكة وبيانات التواصل ومجال المساهمة.</p><button class="btn btn-green" onclick="exportCollection('partnerRequests')">تحميل طلبات الشراكة CSV</button></div>
+                <div class="export-card"><i class="fa-solid fa-users"></i><h4>الشركاء</h4><p>تحميل قائمة الشركاء الحالية المنشورة على الموقع.</p><button class="btn btn-green" onclick="exportCollection('partners')">تحميل الشركاء CSV</button></div>
+            </div>
+        </div>
+
     </main>
 
 </div>
@@ -2963,6 +3022,18 @@
             <div class="form-group full"><label>صورة المنطقة بعد الإصلاح والتنظيف</label><input type="file" class="form-control" id="achievementImage" accept="image/*" required></div>
             <div class="full"><button type="submit" class="btn btn-green submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> رفع ونشر الإنجاز</button></div>
         </form>
+    </div>
+</div>
+
+<!-- Floating Tracking Code Card -->
+<div class="floating-code-overlay" id="trackingCodeOverlay" onclick="if(event.target===this)closeTrackingCodeCard()">
+    <div class="floating-code-card">
+        <button class="modal-close" style="position:absolute;top:14px;left:14px" onclick="closeTrackingCodeCard()"><i class="fa-solid fa-xmark"></i></button>
+        <div class="floating-code-icon"><i class="fa-solid fa-circle-check"></i></div>
+        <h3>تم إرسال البلاغ بنجاح</h3>
+        <p>تم استلام بلاغك. احتفظ بكود المتابعة للاستعلام عن حالة البلاغ في أي وقت.</p>
+        <div class="tracking-code-box"><strong id="floatingTrackingCode">GR-XXXXXXXX</strong><button class="copy-code-btn" onclick="copyTrackingCode()" title="نسخ الكود"><i class="fa-regular fa-copy"></i></button></div>
+        <div class="floating-code-actions"><button class="btn btn-green" onclick="openInquiryFromSuccess()"><i class="fa-solid fa-magnifying-glass"></i> الاستعلام عن البلاغ</button><button class="btn btn-outline" onclick="closeTrackingCodeCard()">إغلاق</button></div>
     </div>
 </div>
 
@@ -3360,8 +3431,7 @@ document.getElementById("dirtyForm").addEventListener("submit", async function (
         document.getElementById("getLocationBtn").innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> استخدام موقعي الحالي';
         closeModal("dirtyModal");
         await updateStatistics();
-        showToast("تم إرسال البلاغ", `تم استلام البلاغ بنجاح. كود المتابعة الخاص بك هو ${trackingCode}. احتفظ به للاستعلام عن الحالة.`);
-        setTimeout(() => alert(`تم إرسال البلاغ بنجاح\n\nكود متابعة البلاغ:\n${trackingCode}\n\nاحتفظ بهذا الكود للاستعلام عن حالة البلاغ لاحقًا.`), 250);
+        openTrackingCodeCard(trackingCode);
     } catch (error) {
         showFirebaseError(error);
     } finally {
@@ -3489,26 +3559,34 @@ document.getElementById("partnerForm").addEventListener("submit", async function
 });
 
 /* =====================================================
-   STATISTICS
+   PUBLIC STATISTICS
+   لا نقرأ المجموعات الخاصة للزوار. نقرأ أرقامًا مجمعة من site_settings/site فقط.
 ===================================================== */
-async function countCollection(name) {
-    const snap = await db.collection(name).get();
-    return snap.size;
-}
-
 async function updateStatistics() {
     try {
-        const [reports, volunteers, partnerRequests] = await Promise.all([
-            countCollection(COLLECTIONS.reports),
-            countCollection(COLLECTIONS.volunteers),
-            countCollection(COLLECTIONS.partnerRequests)
-        ]);
-        document.getElementById("statReports").textContent = reports;
-        document.getElementById("statVolunteers").textContent = volunteers;
-        document.getElementById("statPartners").textContent = partnerRequests;
-    } catch (error) {
-        console.error(error);
-    }
+        const snap = await db.collection(COLLECTIONS.settings).doc("site").get();
+        const data = snap.exists ? snap.data() : {};
+        document.getElementById("statReports").textContent = Number(data.publicReports || 0);
+        document.getElementById("statVolunteers").textContent = Number(data.publicVolunteers || 0);
+        document.getElementById("statPartners").textContent = Number(data.publicPartners || 0);
+        const treesEl = document.getElementById("statTrees");
+        if (treesEl) treesEl.textContent = Number(data.treesPlanted || 0);
+    } catch (error) { console.warn("Public statistics unavailable", error); }
+}
+
+async function syncPublicStatistics(reports, volunteers, requests, partners) {
+    try {
+        const approvedVolunteers = volunteers.docs.filter(d => d.data().status === "مقبول").length;
+        const approvedPartners = partners.size;
+        const completedReports = reports.docs.filter(d => d.data().status === "تم التنفيذ").length;
+        await db.collection(COLLECTIONS.settings).doc("site").set({
+            publicReports: reports.size,
+            publicVolunteers: approvedVolunteers,
+            publicPartners: approvedPartners,
+            completedReports: completedReports,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, {merge:true});
+    } catch (error) { console.warn("Could not sync public statistics", error); }
 }
 
 /* =====================================================
@@ -3581,11 +3659,14 @@ async function loadDashboard() {
         document.getElementById("dashTrees").textContent = trees;
         document.getElementById("treesPlantedAdmin").value = trees;
 
+        window.adminData = { reports, volunteers, partnerRequests: requests, partners, achievements };
+        await syncPublicStatistics(reports, volunteers, requests, partners);
         renderReports(reports);
         renderVolunteers(volunteers);
         renderPartnerRequests(requests);
         renderPartners(partners);
         renderAchievementsAdmin(achievements);
+        await updateStatistics();
     } catch (error) {
         showFirebaseError(error);
     }
@@ -3606,36 +3687,24 @@ function activateTab(tab) {
 /* =====================================================
    RENDER REPORTS
 ===================================================== */
-function renderReports(snapshot) {
-    const table = document.getElementById("reportsTable");
-    table.innerHTML = "";
-    if (snapshot.empty) {
-        table.innerHTML = '<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-camera"></i>لا توجد بلاغات حتى الآن</div></td></tr>';
-        return;
-    }
-    snapshot.forEach(function(doc) {
-        const item = { id: doc.id, ...doc.data() };
-        const code = item.trackingCode || item.id;
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td><span class="report-code">${escapeHtml(code)}</span></td>
-            <td>${escapeHtml(item.date || "")}</td>
-            <td>${escapeHtml(item.description || "")}</td>
-            <td>${escapeHtml(item.location || "")} ${item.mapsUrl ? `<br><a class="maps-link" style="display:inline-flex;margin-top:5px" href="${escapeAttribute(item.mapsUrl)}" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>` : ""}</td>
-            <td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status || "تحت المراجعة")}</span></td>
-            <td><div class="action-group">
-                <button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button>
-                <button class="small-action blue" onclick="setReportStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button>
-                <button class="small-action danger" onclick="setReportStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button>
-                <button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','جاري التنفيذ')">تنفيذ</button>
-                <button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','تم التنفيذ')">تم التنفيذ</button>
-                ${item.image ? `<button class="small-action dark" onclick="viewImage('${escapeAttribute(item.image)}')">الصورة</button>` : ""}
-                <button class="small-action dark" onclick="shareReport('${escapeAttribute(item.id)}')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button>
-                <button class="small-action danger" onclick="deleteReport('${escapeAttribute(item.id)}')">حذف</button>
-            </div></td>`;
-        table.appendChild(row);
+function getDocsArray(snapshot){ const out=[]; snapshot.forEach(doc=>out.push({id:doc.id,...doc.data()})); return out; }
+function sortItems(items, sortKey){
+    return items.sort((a,b)=>{
+        if(sortKey==='name') return String(a.name||'').localeCompare(String(b.name||''),'ar');
+        if(sortKey==='status') return String(a.status||'').localeCompare(String(b.status||''),'ar');
+        const av=(a.createdAt&&a.createdAt.toMillis)?a.createdAt.toMillis():0, bv=(b.createdAt&&b.createdAt.toMillis)?b.createdAt.toMillis():0;
+        return sortKey==='oldest' ? av-bv : bv-av;
     });
 }
+function renderReports(snapshot) {
+    const table=document.getElementById("reportsTable"); table.innerHTML="";
+    const all=getDocsArray(snapshot), q=(document.getElementById('reportsSearch')?.value||'').trim().toLowerCase(), st=document.getElementById('reportsStatusFilter')?.value||'', sort=document.getElementById('reportsSort')?.value||'newest';
+    const items=sortItems(all.filter(x=>(!q||[x.trackingCode,x.id,x.location,x.description,x.date].join(' ').toLowerCase().includes(q))&&(!st||x.status===st)),sort);
+    document.getElementById('reportsCountLabel').textContent=items.length+' بلاغ';
+    if(!items.length){table.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-camera"></i>لا توجد نتائج مطابقة</div></td></tr>';return;}
+    items.forEach(item=>{const code=item.trackingCode||item.id,row=document.createElement('tr');row.innerHTML=`<td><span class="report-code">${escapeHtml(code)}</span></td><td>${escapeHtml(item.date||'')}</td><td>${escapeHtml(item.description||'')}</td><td>${escapeHtml(item.location||'')} ${item.mapsUrl?`<br><a class="maps-link" style="display:inline-flex;margin-top:5px" href="${escapeAttribute(item.mapsUrl)}" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>`:''}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status||'تحت المراجعة')}</span></td><td><div class="action-group"><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button><button class="small-action blue" onclick="setReportStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setReportStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','جاري التنفيذ')">تنفيذ</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','تم التنفيذ')">تم التنفيذ</button>${item.image?`<button class="small-action dark" onclick="viewImage('${escapeAttribute(item.image)}')">الصورة</button>`:''}<button class="small-action dark" onclick="shareReport('${escapeAttribute(item.id)}')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button><button class="small-action danger" onclick="deleteReport('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row);});
+}
+function applyAdminFilters(type){ const map={reports:'renderReports',volunteers:'renderVolunteers',partnerRequests:'renderPartnerRequests'}; const key=type==='partnerRequests'?'partnerRequests':type; if(window.adminData?.[key]&&map[type]) window[map[type]](window.adminData[key]); }
 
 async function setReportStatus(id, status) {
     try {
@@ -3679,42 +3748,18 @@ function viewImage(url) {
 /* =====================================================
    RENDER VOLUNTEERS
 ===================================================== */
-function renderVolunteers(snapshot) {
-    const table = document.getElementById("volunteersTable"); table.innerHTML = "";
-    if (snapshot.empty) { table.innerHTML = '<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-users"></i>لا توجد طلبات تطوع حتى الآن</div></td></tr>'; return; }
-    snapshot.forEach(function(doc) {
-        const item={id:doc.id,...doc.data()}; const row=document.createElement("tr");
-        row.innerHTML=`<td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.phone)}</td><td>${escapeHtml(item.age)}</td><td>${escapeHtml(item.qualification)}</td><td>${escapeHtml(item.availability)}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td><td><div class="action-group"><button class="small-action" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button><button class="small-action blue" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action danger" onclick="deleteVolunteer('${escapeAttribute(item.id)}')">حذف</button></div></td>`;
-        table.appendChild(row);
-    });
+function renderVolunteers(snapshot){
+    const table=document.getElementById('volunteersTable'); table.innerHTML=''; const all=getDocsArray(snapshot),q=(document.getElementById('volunteersSearch')?.value||'').trim().toLowerCase(),st=document.getElementById('volunteersStatusFilter')?.value||'',sort=document.getElementById('volunteersSort')?.value||'newest'; const items=sortItems(all.filter(x=>(!q||[x.name,x.phone,x.qualification,x.availability,x.age].join(' ').toLowerCase().includes(q))&&(!st||x.status===st)),sort); document.getElementById('volunteersCountLabel').textContent=items.length+' طلب'; if(!items.length){table.innerHTML='<tr><td colspan="7"><div class="empty"><i class="fa-solid fa-users"></i>لا توجد نتائج مطابقة</div></td></tr>';return;} items.forEach(item=>{const row=document.createElement('tr');row.innerHTML=`<td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.phone)}</td><td>${escapeHtml(item.age)}</td><td>${escapeHtml(item.qualification)}</td><td>${escapeHtml(item.availability)}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td><td><div class="action-group"><button class="small-action" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button><button class="small-action blue" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setVolunteerStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action danger" onclick="deleteVolunteer('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row);});
 }
-async function setVolunteerStatus(id,status){ try{ await db.collection(COLLECTIONS.volunteers).doc(id).update({status}); await loadDashboard(); showToast("تم تحديث طلب التطوع",`الحالة الآن: ${status}`);}catch(e){showFirebaseError(e);} }
-async function deleteVolunteer(id){ if(!confirm("هل تريد حذف طلب التطوع؟"))return; try{await db.collection(COLLECTIONS.volunteers).doc(id).delete();await loadDashboard();await updateStatistics();showToast("تم الحذف","تم حذف طلب التطوع.");}catch(e){showFirebaseError(e);} }
+async function setVolunteerStatus(id,status){try{await db.collection(COLLECTIONS.volunteers).doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadDashboard();showToast('تم تحديث طلب التطوع',`الحالة الآن: ${status}`);}catch(e){showFirebaseError(e);}}
+async function deleteVolunteer(id){if(!confirm('هل تريد حذف طلب التطوع؟'))return;try{await db.collection(COLLECTIONS.volunteers).doc(id).delete();await loadDashboard();showToast('تم الحذف','تم حذف طلب التطوع.');}catch(e){showFirebaseError(e);}}
 
 /* =====================================================
    RENDER PARTNER REQUESTS
 ===================================================== */
-function renderPartnerRequests(snapshot) {
-    const table=document.getElementById("partnersRequestsTable"); table.innerHTML="";
-    if(snapshot.empty){table.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-handshake"></i>لا توجد طلبات شراكة حتى الآن</div></td></tr>';return;}
-    snapshot.forEach(function(doc){
-        const item={id:doc.id,...doc.data()};
-        const facebook=item.facebook?`<a href="${escapeAttribute(item.facebook)}" target="_blank" rel="noopener" style="color:#2f7d4b;">فتح الرابط</a>`:"غير متوفر";
-        const row=document.createElement("tr");
-        row.innerHTML=`<td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.phone)}</td><td>${facebook}</td><td>${escapeHtml(item.contribution)}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td><td><div class="action-group"><button class="small-action" onclick="acceptPartnerRequest('${escapeAttribute(item.id)}')">قبول</button><button class="small-action blue" onclick="setPartnerRequestStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setPartnerRequestStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action danger" onclick="deletePartnerRequest('${escapeAttribute(item.id)}')">حذف</button></div></td>`;
-        table.appendChild(row);
-    });
-}
-async function setPartnerRequestStatus(id,status){try{await db.collection(COLLECTIONS.partnerRequests).doc(id).update({status});await loadDashboard();showToast("تم تحديث طلب الشراكة",`الحالة الآن: ${status}`);}catch(e){showFirebaseError(e);}}
-async function deletePartnerRequest(id){if(!confirm("هل تريد حذف طلب الشراكة؟"))return;try{await db.collection(COLLECTIONS.partnerRequests).doc(id).delete();await loadDashboard();await updateStatistics();showToast("تم الحذف","تم حذف طلب الشراكة.");}catch(e){showFirebaseError(e);}}
-async function acceptPartnerRequest(id){
-    try{
-        const requestRef=db.collection(COLLECTIONS.partnerRequests).doc(id); const snap=await requestRef.get(); if(!snap.exists)return; const item=snap.data();
-        const exists=await db.collection(COLLECTIONS.partners).where("sourceId","==",id).limit(1).get();
-        if(exists.empty) await db.collection(COLLECTIONS.partners).add({sourceId:id,name:item.name||"",phone:item.phone||"",facebook:item.facebook||"",contribution:item.contribution||"",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
-        await requestRef.update({status:"مقبول"}); await loadDashboard(); showToast("تم قبول الشراكة","تمت إضافة المؤسسة إلى قائمة الشركاء.");
-    }catch(e){showFirebaseError(e);}
-}
+function renderPartnerRequests(snapshot){const table=document.getElementById('partnersRequestsTable');table.innerHTML='';const all=getDocsArray(snapshot),q=(document.getElementById('partnerRequestsSearch')?.value||'').trim().toLowerCase(),st=document.getElementById('partnerRequestsStatusFilter')?.value||'',sort=document.getElementById('partnerRequestsSort')?.value||'newest';const items=sortItems(all.filter(x=>(!q||[x.name,x.phone,x.contribution,x.facebook].join(' ').toLowerCase().includes(q))&&(!st||x.status===st)),sort);document.getElementById('partnerRequestsCountLabel').textContent=items.length+' طلب';if(!items.length){table.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-handshake"></i>لا توجد نتائج مطابقة</div></td></tr>';return;}items.forEach(item=>{const facebook=item.facebook?`<a href="${escapeAttribute(item.facebook)}" target="_blank" rel="noopener" style="color:#2f7d4b">فتح الرابط</a>`:'غير متوفر';const row=document.createElement('tr');row.innerHTML=`<td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.phone)}</td><td>${facebook}</td><td>${escapeHtml(item.contribution)}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></td><td><div class="action-group"><button class="small-action" onclick="acceptPartnerRequest('${escapeAttribute(item.id)}')">قبول</button><button class="small-action blue" onclick="setPartnerRequestStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setPartnerRequestStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action danger" onclick="deletePartnerRequest('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row);});}
+async function setPartnerRequestStatus(id,status){try{await db.collection(COLLECTIONS.partnerRequests).doc(id).update({status,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadDashboard();showToast('تم تحديث طلب الشراكة',`الحالة الآن: ${status}`);}catch(e){showFirebaseError(e);}}
+async function deletePartnerRequest(id){if(!confirm('هل تريد حذف طلب الشراكة؟'))return;try{await db.collection(COLLECTIONS.partnerRequests).doc(id).delete();await loadDashboard();showToast('تم الحذف','تم حذف طلب الشراكة.');}catch(e){showFirebaseError(e);}}
 
 /* =====================================================
    PARTNERS
@@ -3839,6 +3884,17 @@ document.querySelector(".logo").addEventListener("click", function () {
         openAdmin();
     }
 });
+
+async function exportCollection(type){
+    if(!auth.currentUser){showToast('غير مصرح','سجل الدخول أولًا.','error');return;}
+    const names={reports:'reports',volunteers:'volunteers',partnerRequests:'partnerRequests',partners:'partners'}; const collection=COLLECTIONS[names[type]||type];
+    try{const snap=await db.collection(collection).get();const rows=getDocsArray(snap);if(!rows.length){showToast('لا توجد بيانات','لا توجد بيانات لتحميلها.','error');return;}const keys=[...new Set(rows.flatMap(x=>Object.keys(x)))];const csv=[keys.map(csvCell).join(','),...rows.map(r=>keys.map(k=>csvCell(normalizeExportValue(r[k]))).join(','))].join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='gharsa_'+type+'_'+new Date().toISOString().slice(0,10)+'.csv';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);showToast('تم تجهيز الملف','تم تحميل البيانات بنجاح.');}catch(e){showFirebaseError(e);}}
+function normalizeExportValue(v){if(v&&typeof v.toDate==='function')return v.toDate().toLocaleString('ar-EG');if(v&&typeof v==='object')return JSON.stringify(v);return v??'';}
+function csvCell(v){return '"'+String(v).replace(/"/g,'""').replace(/\r?\n/g,' ')+'"';}
+function openTrackingCodeCard(code){document.getElementById('floatingTrackingCode').textContent=code;document.getElementById('trackingCodeOverlay').classList.add('active');document.body.style.overflow='hidden';}
+function closeTrackingCodeCard(){document.getElementById('trackingCodeOverlay').classList.remove('active');if(!document.querySelector('.modal.active'))document.body.style.overflow='';}
+async function copyTrackingCode(){const code=document.getElementById('floatingTrackingCode').textContent;try{await navigator.clipboard.writeText(code);showToast('تم نسخ الكود','تم نسخ كود متابعة البلاغ.');}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();showToast('تم نسخ الكود','تم نسخ كود المتابعة.');}}
+function openInquiryFromSuccess(){const code=document.getElementById('floatingTrackingCode').textContent;closeTrackingCodeCard();openReportInquiry();document.getElementById('inquiryCode').value=code;document.getElementById('reportInquiryForm').dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));}
 
 /* =====================================================
    UTILITIES

@@ -13,6 +13,7 @@
 
     <!-- أيقونات Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 
     <style>
         * {
@@ -494,7 +495,7 @@
             text-align: center;
         }
 
-        .big-tree {
+       .big-tree {
       color: #2e8b57;
     position: relative;
     z-index: 2;
@@ -1748,6 +1749,47 @@
         }
 
         /* =========================
+           GHARSA MAP
+        ========================== */
+        .gharsa-map-section { background: #f3f8f4; }
+        .gharsa-map-card { max-width: 1150px; margin: auto; background: #fff; border: 1px solid var(--border); border-radius: 26px; overflow: hidden; box-shadow: var(--shadow); }
+        .map-toolbar { padding: 14px 16px; display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; border-bottom:1px solid var(--border); }
+        .map-legend { display:flex; align-items:center; gap:16px; flex-wrap:wrap; color:var(--muted); font-size:13px; font-weight:700; }
+        .map-legend span { display:inline-flex; align-items:center; gap:7px; }
+        .map-dot { width:12px; height:12px; border-radius:50%; display:inline-block; box-shadow:0 0 0 3px rgba(0,0,0,.05); }
+        .map-dot.red { background:#d64545; }
+        .map-dot.green { background:#2f7d4b; }
+        .map-dot.tree { background:#6aa84f; }
+        #gharsaMapCanvas { width:100%; height:500px; background:#e9f0ea; z-index:1; }
+        .map-status { padding:12px 16px; color:var(--muted); font-size:12px; text-align:center; border-top:1px solid var(--border); }
+        .gharsa-marker { width:38px; height:38px; border-radius:50% 50% 50% 0; transform:rotate(-45deg); display:flex; align-items:center; justify-content:center; border:3px solid #fff; box-shadow:0 5px 15px rgba(0,0,0,.22); }
+        .gharsa-marker i { transform:rotate(45deg); color:#fff; font-size:16px; }
+        .gharsa-marker.dirty { background:#d64545; }
+        .gharsa-marker.cleaned { background:#2f7d4b; }
+        .gharsa-marker.planted { background:#4f8f42; }
+        .map-popup h4 { margin:0 0 7px; color:var(--green-dark); font-size:16px; }
+        .map-popup p { margin:4px 0; color:#5f7066; font-size:12px; line-height:1.7; }
+        .map-popup .popup-status { display:inline-flex; margin-top:7px; padding:4px 9px; border-radius:20px; font-size:11px; font-weight:700; }
+        @media (max-width:600px){ #gharsaMapCanvas{height:420px;} .map-toolbar{align-items:stretch;} .map-toolbar .location-btn{width:100%;} .map-legend{gap:9px; font-size:11px;} }
+
+        /* =========================
+           SUPPORTERS
+        ========================== */
+        .supporters-section { background:#fff; }
+        .supporters-card { max-width:1150px; margin:auto; background:#fff; border:1px solid var(--border); border-radius:26px; padding:26px 20px 18px; box-shadow:var(--shadow); overflow:hidden; }
+        .supporters-track { min-height:150px; display:flex; align-items:center; justify-content:center; position:relative; }
+        .supporter-slide { width:100%; display:none; align-items:center; justify-content:center; animation:supporterFade .45s ease; }
+        .supporter-slide.active { display:flex; }
+        .supporter-slide a { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; text-decoration:none; color:var(--green-dark); width:100%; }
+        .supporter-slide img { width:min(230px,65vw); height:105px; object-fit:contain; border-radius:14px; background:#fff; }
+        .supporter-slide span { font-weight:800; font-size:14px; }
+        .supporters-dots { display:flex; justify-content:center; gap:7px; margin-top:10px; }
+        .supporter-dot { width:8px; height:8px; border:0; border-radius:50%; background:#cddbd1; padding:0; cursor:pointer; }
+        .supporter-dot.active { background:var(--green); transform:scale(1.25); }
+        @keyframes supporterFade { from{opacity:.25;transform:translateY(5px)} to{opacity:1;transform:translateY(0)} }
+        @media (max-width:600px){ .supporters-card{padding:20px 12px 15px}.supporter-slide img{height:85px;width:min(190px,70vw)} }
+
+        /* =========================
            RESPONSIVE
         ========================== */
 
@@ -1885,6 +1927,7 @@
                 <a href="#actions">ساهم معنا</a>
                 <a href="#about">من نحن</a>
                 <a href="#goals">أهداف المشروع</a>
+                <a href="#gharsaMap">خريطة غرسة</a>
             </nav>
 
             <div class="header-actions">
@@ -1939,6 +1982,11 @@
             <a href="#goals" onclick="closeSideMenu()">
                 <i class="fa-solid fa-bullseye"></i>
                 أهداف المشروع
+            </a>
+
+            <a href="#gharsaMap" onclick="closeSideMenu()">
+                <i class="fa-solid fa-map-location-dot"></i>
+                خريطة غرسة
             </a>
 
             <a href="#" onclick="openReportInquiry(); closeSideMenu(); return false;">
@@ -2236,6 +2284,31 @@
     </section>
 
 
+    <!-- Gharsa Map -->
+    <section class="section gharsa-map-section" id="gharsaMap">
+        <div class="section-head">
+            <span class="section-label">خريطة غرسة</span>
+            <h2>نعرف أين نحتاج إلى أثرنا</h2>
+            <p>تظهر هنا الأماكن التي تم الإبلاغ عنها: الأحمر للمكان الذي لم يُنظف بعد، والأخضر للمكان الذي تم تنظيفه، ورمز الشجرة للمكان الذي تم تنظيفه وتشجيره.</p>
+        </div>
+
+        <div class="gharsa-map-card">
+            <div class="map-toolbar">
+                <div class="map-legend">
+                    <span><i class="map-dot red"></i> يحتاج إلى تنظيف</span>
+                    <span><i class="map-dot green"></i> تم تنظيفه</span>
+                    <span><i class="map-dot tree"></i> تم تشجيره</span>
+                </div>
+                <button class="location-btn secondary" type="button" onclick="refreshGharsaMap(true)">
+                    <i class="fa-solid fa-rotate"></i> تحديث الخريطة
+                </button>
+            </div>
+            <div id="gharsaMapCanvas" aria-label="خريطة غرسة التفاعلية"></div>
+            <div class="map-status" id="gharsaMapStatus">جارٍ تحميل خريطة غرسة...</div>
+        </div>
+    </section>
+
+
     <!-- Achievements -->
     <section class="section achievement-section" id="achievements">
         <div class="section-head">
@@ -2259,6 +2332,12 @@
         <div class="slider-dots" id="achievementDots"></div>
     </section>
 
+
+    <!-- Supporters -->
+    <section class="section supporters-section" id="supporters" style="display:none;">
+        <div class="section-head"><span class="section-label">الداعمون</span><h2>شركاؤنا في صناعة الأثر</h2><p>نفخر بالشركات والمؤسسات التي تساهم في دعم غرسة وصناعة أثرٍ أجمل في مجتمعنا.</p></div>
+        <div class="supporters-card"><div class="supporters-track" id="supportersTrack"></div><div class="supporters-dots" id="supportersDots"></div></div>
+    </section>
 
     <!-- Impact -->
     <section class="section impact">
@@ -2366,7 +2445,6 @@
     </footer>
 
 </div>
-
 
 
 <!-- =========================
@@ -3194,8 +3272,7 @@
                 <strong id="dashTrees">0</strong>
                 <span>الأشجار المزروعة</span>
             </div>
-
-        </div>
+</div>
 
 
         <div class="admin-tabs">
@@ -3220,7 +3297,11 @@
                 قائمة الشركاء
             </button>
 
-            <button class="admin-tab" onclick="switchAdminTab('achievements', this)">
+            <button class="admin-tab" onclick="switchAdminTab('supporters', this)">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+                الداعمون
+            </button>
+<button class="admin-tab" onclick="switchAdminTab('achievements', this)">
                 <i class="fa-solid fa-trophy"></i>
                 الإنجازات
             </button>
@@ -3393,6 +3474,17 @@
 
         </div>
 
+        <!-- Supporters -->
+        <div class="admin-panel" id="panel-supporters" style="display:none;">
+            <div class="panel-head"><div><h3>إدارة الداعمين</h3><div class="admin-mini-note">أضف شعارات الشركات والمؤسسات الداعمة لتظهر في الصفحة الرئيسية.</div></div><button class="small-action" onclick="openSupporterAdminModal()"><i class="fa-solid fa-plus"></i> إضافة داعم</button></div>
+            <div class="setting-card" style="margin-bottom:18px;">
+                <div class="form-group"><label style="display:flex;align-items:center;gap:10px;cursor:pointer;"><input type="checkbox" id="supportersEnabledAdmin" style="width:18px;height:18px;accent-color:var(--green);"> إظهار قسم الداعمين في الصفحة الرئيسية</label></div>
+                <div class="form-group"><label>سرعة الانتقال بين الداعمين (بالثواني)</label><input type="number" min="1" max="20" step="1" class="form-control" id="supportersIntervalAdmin" value="2"></div>
+                <button class="btn btn-green" onclick="saveSupportersSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ إعدادات الداعمين</button>
+            </div>
+            <div class="table-wrapper"><table><thead><tr><th>اللوجو</th><th>الشركة / المؤسسة</th><th>الرابط</th><th>الترتيب</th><th>الحالة</th><th>الإجراء</th></tr></thead><tbody id="supportersTable"></tbody></table></div>
+        </div>
+
         <!-- Achievements -->
         <div class="admin-panel" id="panel-achievements" style="display:none;">
             <div class="panel-head">
@@ -3446,6 +3538,21 @@
     </div>
 </div>
 
+<!-- Supporter Admin Modal -->
+<div class="modal content-modal" id="supporterAdminModal">
+    <div class="modal-box">
+        <div class="modal-head"><div class="modal-title"><div class="icon"><i class="fa-solid fa-hand-holding-heart"></i></div><div><h3>إضافة داعم</h3><p>سيظهر الشعار في قسم الداعمين بالصفحة الرئيسية</p></div></div><button class="modal-close" onclick="closeModal('supporterAdminModal')"><i class="fa-solid fa-xmark"></i></button></div>
+        <form id="supporterAdminForm" class="achievement-admin-form">
+            <div class="form-group full"><label>اسم الشركة / المؤسسة</label><input class="form-control" id="supporterName" required placeholder="مثال: شركة ..."></div>
+            <div class="form-group full"><label>رابط الشركة أو المؤسسة</label><input type="url" class="form-control" id="supporterUrl" required placeholder="https://example.com"></div>
+            <div class="form-group"><label>ترتيب الظهور</label><input type="number" min="0" class="form-control" id="supporterOrder" value="0"></div>
+            <div class="form-group"><label>الحالة</label><select class="form-control" id="supporterActive"><option value="true">ظاهر</option><option value="false">مخفي</option></select></div>
+            <div class="form-group full"><label>شعار الشركة / المؤسسة</label><input type="file" class="form-control" id="supporterLogo" accept="image/*" required></div>
+            <div class="full"><button type="submit" class="btn btn-green submit-btn"><i class="fa-solid fa-cloud-arrow-up"></i> رفع وإضافة الداعم</button></div>
+        </form>
+    </div>
+</div>
+
 <!-- Floating Tracking Code Card -->
 <div class="floating-code-overlay" id="trackingCodeOverlay" onclick="if(event.target===this)closeTrackingCodeCard()">
     <div class="floating-code-card">
@@ -3459,6 +3566,7 @@
 </div>
 
 <!-- Firebase SDK -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -3471,7 +3579,7 @@
    1) أنشئ مشروع Firebase.
    2) ضع بيانات Firebase Config في الأسفل.
    3) فعّل Authentication > Email/Password.
-   4) أنشئ مستخدم الإدارة من Authentication > Users.
+   4) أنشئ مستخدم الإدارة من Authentication > Users؛ تسجيل الدخول يتم بالإيميل وكلمة المرور.
    5) أنشئ Firestore Database.
    6) الصور يتم رفعها إلى Cloudinary، ولا نحتاج إلى Firebase Storage.
 */
@@ -3499,11 +3607,119 @@ const COLLECTIONS = {
     volunteers: "volunteer_requests",
     partnerRequests: "partnership_requests",
     partners: "partners",
+    supporters: "supporters",
     achievements: "achievements",
     settings: "site_settings"
 };
 
 const FACEBOOK_URL = "https://www.facebook.com/gharsa.eg";
+
+/* =====================================================
+   GHARSA MAP — REAL-TIME REPORT STATUS
+   يعتمد على نفس تقارير Firestore التي تحتوي أصلًا على latitude/longitude.
+===================================================== */
+let gharsaMap = null;
+let gharsaMapLayer = null;
+let gharsaMapUnsubscribe = null;
+let gharsaMapRefreshTimer = null;
+
+function setGharsaMapStatus(message, type = "info") {
+    const el = document.getElementById("gharsaMapStatus");
+    if (!el) return;
+    el.textContent = message;
+    el.style.color = type === "error" ? "#b42318" : "var(--muted)";
+}
+
+function createGharsaIcon(kind) {
+    const config = {
+        dirty: { cls: "dirty", icon: "fa-triangle-exclamation" },
+        cleaned: { cls: "cleaned", icon: "fa-broom" },
+        planted: { cls: "planted", icon: "fa-tree" }
+    }[kind] || { cls: "dirty", icon: "fa-location-dot" };
+    return L.divIcon({
+        className: "gharsa-marker-wrap",
+        html: `<div class="gharsa-marker ${config.cls}"><i class="fa-solid ${config.icon}"></i></div>`,
+        iconSize: [38, 38],
+        iconAnchor: [19, 38],
+        popupAnchor: [0, -36]
+
+    });
+}
+
+function gharsaPlaceKind(item) {
+    if (item.planted === true || Number(item.plantedTrees || 0) > 0) return "planted";
+    if (item.status === "تم التنفيذ" || item.cleaned === true) return "cleaned";
+    return "dirty";
+}
+
+function gharsaPlaceLabel(kind) {
+    if (kind === "planted") return "تم تنظيفه وتشجيره 🌳";
+    if (kind === "cleaned") return "تم تنظيفه ✅";
+    return "يحتاج إلى تنظيف 🔴";
+}
+
+function renderGharsaMap(snapshot) {
+    if (!gharsaMap || !gharsaMapLayer) return;
+    gharsaMapLayer.clearLayers();
+    let count = 0;
+    snapshot.forEach(doc => {
+        const item = { id: doc.id, ...doc.data() };
+        const lat = Number(item.latitude);
+        const lng = Number(item.longitude);
+        if (!Number.isFinite(lat) || !Number.isFinite(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return;
+        if (item.status === "مرفوض") return;
+        const kind = gharsaPlaceKind(item);
+        const marker = L.marker([lat, lng], { icon: createGharsaIcon(kind) });
+        const code = item.trackingCode || item.id;
+        const popup = `<div class="map-popup"><h4>${escapeHtml(item.location || "مكان مُبلغ عنه")}</h4><p><b>الحالة:</b> ${escapeHtml(gharsaPlaceLabel(kind))}</p>${item.description ? `<p>${escapeHtml(item.description)}</p>` : ""}<p><b>كود البلاغ:</b> ${escapeHtml(code)}</p>${item.plantedTrees ? `<p><b>الأشجار المزروعة:</b> ${escapeHtml(item.plantedTrees)}</p>` : ""}${item.mapsUrl ? `<p><a href="${escapeAttribute(item.mapsUrl)}" target="_blank" rel="noopener" style="color:#1769aa;font-weight:700">عرض الموقع على Google Maps</a></p>` : ""}</div>`;
+        marker.bindPopup(popup);
+        marker.addTo(gharsaMapLayer);
+        count++;
+    });
+    setGharsaMapStatus(count ? `آخر تحديث: ${new Date().toLocaleTimeString("ar-EG")} — ${count} مكان ظاهر على الخريطة.` : "لا توجد أماكن مؤهلة للعرض على الخريطة حتى الآن.");
+}
+
+async function refreshGharsaMap(manual = false) {
+    if (!gharsaMap || !gharsaMapLayer) return;
+    try {
+        const snapshot = await db.collection(COLLECTIONS.reports).get();
+        renderGharsaMap(snapshot);
+    } catch (error) {
+        console.warn("Gharsa map unavailable:", error);
+        setGharsaMapStatus("تعذر تحديث الخريطة حاليًا. سيتم المحاولة مرة أخرى تلقائيًا.", "error");
+        if (manual) showFirebaseError(error);
+    }
+}
+
+function initGharsaMap() {
+    const el = document.getElementById("gharsaMapCanvas");
+    if (!el || !window.L || gharsaMap) return;
+    gharsaMap = L.map(el, { zoomControl: true, attributionControl: true }).setView([26.8206, 30.8025], 6);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(gharsaMap);
+    gharsaMapLayer = L.layerGroup().addTo(gharsaMap);
+    refreshGharsaMap(false);
+
+    if (gharsaMapUnsubscribe) gharsaMapUnsubscribe();
+    try {
+        gharsaMapUnsubscribe = db.collection(COLLECTIONS.reports).onSnapshot(
+            snapshot => renderGharsaMap(snapshot),
+            error => {
+                console.warn("Gharsa map realtime listener unavailable:", error);
+                setGharsaMapStatus("الخريطة تعمل، لكن التحديث اللحظي غير متاح حاليًا. سيتم التحديث تلقائيًا كل دقيقة.", "error");
+            }
+        );
+    } catch (error) {
+        console.warn(error);
+    }
+
+    clearInterval(gharsaMapRefreshTimer);
+    gharsaMapRefreshTimer = setInterval(() => refreshGharsaMap(false), 60000);
+    setTimeout(() => gharsaMap.invalidateSize(), 250);
+}
+
 
 /* =====================================================
    INITIALIZATION
@@ -3516,6 +3732,8 @@ window.addEventListener("load", async function () {
     await updateStatistics();
     await loadPublicAchievements();
     await loadProjectSettings();
+    await loadPublicSupporters();
+    initGharsaMap();
 });
 
 window.addEventListener("scroll", function () {
@@ -3887,7 +4105,10 @@ document.getElementById("dirtyForm").addEventListener("submit", async function (
             image: imageUrl,
             imagePublicId: cloudinaryData.public_id || "",
             imageProvider: "cloudinary",
-            status: "تحت المراجعة"
+            status: "تحت المراجعة",
+            cleaned: false,
+            planted: false,
+            plantedTrees: 0
         });
 
         this.reset();
@@ -3899,6 +4120,7 @@ document.getElementById("dirtyForm").addEventListener("submit", async function (
         document.getElementById("getLocationBtn").innerHTML = '<i class="fa-solid fa-location-crosshairs"></i> استخدام موقعي الحالي';
         closeModal("dirtyModal");
         await updateStatistics();
+        await refreshGharsaMap(false);
         openTrackingCodeCard(trackingCode);
     } catch (error) {
         showFirebaseError(error);
@@ -4028,7 +4250,6 @@ document.getElementById("partnerForm").addEventListener("submit", async function
 
 /* =====================================================
    PUBLIC STATISTICS
-   لا نقرأ المجموعات الخاصة للزوار. نقرأ أرقامًا مجمعة من site_settings/site فقط.
 ===================================================== */
 async function updateStatistics() {
     try {
@@ -4087,6 +4308,7 @@ document.getElementById("adminLoginForm").addEventListener("submit", async funct
             throw new Error("Firebase Config غير مكتمل: يجب وضع بيانات مشروع Firebase الحقيقية داخل garsa_pro.html قبل تسجيل الدخول.");
         }
         await auth.signInWithEmailAndPassword(email, password);
+
         document.getElementById("adminPage").style.display = "none";
         document.getElementById("adminDashboard").style.display = "block";
         await loadDashboard();
@@ -4098,9 +4320,9 @@ document.getElementById("adminLoginForm").addEventListener("submit", async funct
     }
 });
 
-auth.onAuthStateChanged(async function (user) {
+auth.onAuthStateChanged(function (user) {
     if (user) {
-        console.log("Admin authenticated:", user.email);
+        console.log("Authenticated admin account:", user.email);
     }
 });
 
@@ -4110,11 +4332,12 @@ auth.onAuthStateChanged(async function (user) {
 async function loadDashboard() {
     if (!auth.currentUser) return;
     try {
-        const [reports, volunteers, requests, partners, achievements, settingsSnap] = await Promise.all([
+        const [reports, volunteers, requests, partners, supporters, achievements, settingsSnap] = await Promise.all([
             db.collection(COLLECTIONS.reports).get(),
             db.collection(COLLECTIONS.volunteers).get(),
             db.collection(COLLECTIONS.partnerRequests).get(),
             db.collection(COLLECTIONS.partners).get(),
+            db.collection(COLLECTIONS.supporters).get(),
             db.collection(COLLECTIONS.achievements).orderBy("createdAt", "desc").get().catch(() => db.collection(COLLECTIONS.achievements).get()),
             db.collection(COLLECTIONS.settings).doc("site").get()
         ]);
@@ -4127,12 +4350,14 @@ async function loadDashboard() {
         document.getElementById("dashTrees").textContent = trees;
         document.getElementById("treesPlantedAdmin").value = trees;
 
-        window.adminData = { reports, volunteers, partnerRequests: requests, partners, achievements };
+        window.adminData = { reports, volunteers, partnerRequests: requests, partners, supporters, achievements };
         await syncPublicStatistics(reports, volunteers, requests, partners);
         renderReports(reports);
         renderVolunteers(volunteers);
         renderPartnerRequests(requests);
         renderPartners(partners);
+        renderSupporters(supporters);
+        loadSupportersAdminSettings(settingsSnap);
         renderAchievementsAdmin(achievements);
         await updateStatistics();
     } catch (error) {
@@ -4170,15 +4395,50 @@ function renderReports(snapshot) {
     const items=sortItems(all.filter(x=>(!q||[x.trackingCode,x.id,x.location,x.description,x.date].join(' ').toLowerCase().includes(q))&&(!st||x.status===st)),sort);
     document.getElementById('reportsCountLabel').textContent=items.length+' بلاغ';
     if(!items.length){table.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-camera"></i>لا توجد نتائج مطابقة</div></td></tr>';return;}
-    items.forEach(item=>{const code=item.trackingCode||item.id,row=document.createElement('tr');row.innerHTML=`<td><span class="report-code">${escapeHtml(code)}</span></td><td>${escapeHtml(item.date||'')}</td><td>${escapeHtml(item.description||'')}</td><td>${escapeHtml(item.location||'')} ${item.mapsUrl?`<br><a class="maps-link" style="display:inline-flex;margin-top:5px" href="${escapeAttribute(item.mapsUrl)}" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>`:''}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status||'تحت المراجعة')}</span></td><td><div class="action-group"><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button><button class="small-action blue" onclick="setReportStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setReportStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','جاري التنفيذ')">تنفيذ</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','تم التنفيذ')">تم التنفيذ</button>${item.image?`<button class="small-action dark" onclick="viewImage('${escapeAttribute(item.image)}')">الصورة</button>`:''}<button class="small-action dark" onclick="shareReport('${escapeAttribute(item.id)}')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button><button class="small-action danger" onclick="deleteReport('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row);});
+    items.forEach(item=>{const code=item.trackingCode||item.id,row=document.createElement('tr');row.innerHTML=`<td><span class="report-code">${escapeHtml(code)}</span></td><td>${escapeHtml(item.date||'')}</td><td>${escapeHtml(item.description||'')}</td><td>${escapeHtml(item.location||'')} ${item.mapsUrl?`<br><a class="maps-link" style="display:inline-flex;margin-top:5px" href="${escapeAttribute(item.mapsUrl)}" target="_blank" rel="noopener"><i class="fa-solid fa-map-location-dot"></i> الخريطة</a>`:''}</td><td><span class="status ${statusClass(item.status)}">${escapeHtml(item.status||'تحت المراجعة')}</span></td><td><div class="action-group"><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','مقبول')">قبول</button><button class="small-action blue" onclick="setReportStatus('${escapeAttribute(item.id)}','تحت المراجعة')">مراجعة</button><button class="small-action danger" onclick="setReportStatus('${escapeAttribute(item.id)}','مرفوض')">رفض</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','جاري التنفيذ')">تنفيذ</button><button class="small-action" onclick="setReportStatus('${escapeAttribute(item.id)}','تم التنفيذ')">تم التنفيذ</button><button class="small-action" onclick="markReportPlanted('${escapeAttribute(item.id)}')"><i class="fa-solid fa-tree"></i> تشجير</button>${item.image?`<button class="small-action dark" onclick="viewImage('${escapeAttribute(item.image)}')">الصورة</button>`:''}<button class="small-action dark" onclick="shareReport('${escapeAttribute(item.id)}')"><i class="fa-solid fa-share-nodes"></i> مشاركة</button><button class="small-action danger" onclick="deleteReport('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row);});
 }
 function applyAdminFilters(type){ const map={reports:'renderReports',volunteers:'renderVolunteers',partnerRequests:'renderPartnerRequests'}; const key=type==='partnerRequests'?'partnerRequests':type; if(window.adminData?.[key]&&map[type]) window[map[type]](window.adminData[key]); }
 
 async function setReportStatus(id, status) {
     try {
-        await db.collection(COLLECTIONS.reports).doc(id).update({ status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() });
+        const data = { status: status, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
+        if (status === "تم التنفيذ") {
+            data.cleaned = true;
+            data.cleanedAt = firebase.firestore.FieldValue.serverTimestamp();
+        }
+        await db.collection(COLLECTIONS.reports).doc(id).update(data);
         await loadDashboard();
+        await refreshGharsaMap(false);
         showToast("تم تحديث البلاغ", `الحالة الآن: ${status}`);
+    } catch (error) { showFirebaseError(error); }
+}
+
+async function markReportPlanted(id) {
+    const current = window.adminData?.reports ? getDocsArray(window.adminData.reports).find(x => x.id === id) : null;
+    const currentTrees = current ? Number(current.plantedTrees || 0) : 0;
+    const value = prompt("كم شجرة تمت زراعتها في هذا المكان؟", currentTrees > 0 ? String(currentTrees) : "1");
+    if (value === null) return;
+    const trees = Math.floor(Number(value));
+    if (!Number.isFinite(trees) || trees < 1) {
+        showToast("عدد غير صالح", "اكتب عددًا صحيحًا أكبر من صفر.", "error");
+        return;
+    }
+    try {
+        await db.collection(COLLECTIONS.reports).doc(id).update({
+            status: "تم التنفيذ",
+            cleaned: true,
+            planted: true,
+            plantedTrees: trees,
+            plantedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        const siteRef = db.collection(COLLECTIONS.settings).doc("site");
+        const siteSnap = await siteRef.get();
+        const oldTotal = siteSnap.exists ? Number(siteSnap.data().treesPlanted || 0) : 0;
+        await siteRef.set({ treesPlanted: oldTotal + trees, updatedAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+        await loadDashboard();
+        await refreshGharsaMap(false);
+        showToast("تم تسجيل التشجير", `تم تسجيل زراعة ${trees} ${trees === 1 ? "شجرة" : "أشجار"} في هذا المكان.`);
     } catch (error) { showFirebaseError(error); }
 }
 
@@ -4186,7 +4446,7 @@ async function deleteReport(id) {
     if (!confirm("هل أنت متأكد من حذف هذا البلاغ؟ لا يمكن التراجع عن الحذف.")) return;
     try {
         await db.collection(COLLECTIONS.reports).doc(id).delete();
-        await loadDashboard(); await updateStatistics();
+        await loadDashboard(); await updateStatistics(); await refreshGharsaMap(false);
         showToast("تم حذف البلاغ", "تم حذف البلاغ من لوحة الإدارة.");
     } catch (error) { showFirebaseError(error); }
 }
@@ -4299,6 +4559,23 @@ async function deletePartner(id) {
         showToast("تم الحذف", "تم حذف الشريك من القائمة.");
     } catch (error) { showFirebaseError(error); }
 }
+
+/* =====================================================
+   SUPPORTERS
+===================================================== */
+let supportersTimer = null;
+let supportersIndex = 0;
+function supportersConfigFromSite(data){return{enabled:data && data.supportersEnabled === true,interval:Math.max(1,Math.min(20,Number(data && data.supportersInterval || 2)))}};
+async function loadPublicSupporters(){try{const siteSnap=await db.collection(COLLECTIONS.settings).doc("site").get(),site=siteSnap.exists?siteSnap.data():{},config=supportersConfigFromSite(site),section=document.getElementById("supporters");if(!section)return;if(!config.enabled){section.style.display="none";return;}let snap;try{snap=await db.collection(COLLECTIONS.supporters).orderBy("order","asc").get()}catch(_){snap=await db.collection(COLLECTIONS.supporters).get()}const items=getDocsArray(snap).filter(x=>x.active===true).sort((a,b)=>Number(a.order||0)-Number(b.order||0));renderPublicSupporters(items,config.interval)}catch(e){console.warn("Supporters unavailable",e);const section=document.getElementById("supporters");if(section)section.style.display="none";}}
+function renderPublicSupporters(items,intervalSeconds){const section=document.getElementById("supporters"),track=document.getElementById("supportersTrack"),dots=document.getElementById("supportersDots");if(!section||!track||!dots)return;clearInterval(supportersTimer);track.innerHTML="";dots.innerHTML="";supportersIndex=0;if(!items.length){section.style.display="none";return;}section.style.display="block";items.forEach((item,index)=>{const slide=document.createElement("div");slide.className="supporter-slide"+(index===0?" active":"");slide.innerHTML=`<a href="${escapeAttribute(item.url||"#")}" target="_blank" rel="noopener noreferrer" aria-label="زيارة ${escapeAttribute(item.name||"الداعم")}"><img src="${escapeAttribute(item.logo||"")}" alt="شعار ${escapeAttribute(item.name||"الداعم")}" loading="lazy"><span>${escapeHtml(item.name||"داعم غرسة")}</span></a>`;track.appendChild(slide);const dot=document.createElement("button");dot.type="button";dot.className="supporter-dot"+(index===0?" active":"");dot.setAttribute("aria-label",`الداعم ${index+1}`);dot.onclick=()=>showSupporter(index);dots.appendChild(dot)});if(items.length>1)supportersTimer=setInterval(()=>showSupporter((supportersIndex+1)%items.length),Math.max(1,Number(intervalSeconds||2))*1000)}
+function showSupporter(index){const slides=document.querySelectorAll("#supportersTrack .supporter-slide"),dots=document.querySelectorAll("#supportersDots .supporter-dot");if(!slides.length)return;supportersIndex=((index%slides.length)+slides.length)%slides.length;slides.forEach((x,i)=>x.classList.toggle("active",i===supportersIndex));dots.forEach((x,i)=>x.classList.toggle("active",i===supportersIndex))}
+function loadSupportersAdminSettings(settingsSnap){const data=settingsSnap&&settingsSnap.exists?settingsSnap.data():{},config=supportersConfigFromSite(data),enabled=document.getElementById("supportersEnabledAdmin"),interval=document.getElementById("supportersIntervalAdmin");if(enabled)enabled.checked=config.enabled;if(interval)interval.value=config.interval}
+async function saveSupportersSettings(){const enabled=!!document.getElementById("supportersEnabledAdmin")?.checked,interval=Math.max(1,Math.min(20,Math.floor(Number(document.getElementById("supportersIntervalAdmin")?.value||2))));try{await db.collection(COLLECTIONS.settings).doc("site").set({supportersEnabled:enabled,supportersInterval:interval,updatedAt:firebase.firestore.FieldValue.serverTimestamp()},{merge:true});await loadPublicSupporters();showToast("تم الحفظ","تم تحديث ظهور قسم الداعمين وسرعة السلايدر.")}catch(e){showFirebaseError(e)}}
+function renderSupporters(snapshot){const table=document.getElementById("supportersTable");if(!table)return;table.innerHTML="";const all=getDocsArray(snapshot).sort((a,b)=>Number(a.order||0)-Number(b.order||0));if(!all.length){table.innerHTML='<tr><td colspan="6"><div class="empty"><i class="fa-solid fa-hand-holding-heart"></i>لا يوجد داعمون مضافون حتى الآن</div></td></tr>';return;}all.forEach(item=>{const row=document.createElement("tr");row.innerHTML=`<td><img src="${escapeAttribute(item.logo||"")}" style="width:80px;height:48px;object-fit:contain;border-radius:8px;background:#fff" alt=""></td><td>${escapeHtml(item.name||"")}</td><td>${item.url?`<a href="${escapeAttribute(item.url)}" target="_blank" rel="noopener" style="color:#2f7d4b">فتح الرابط</a>`:"غير متوفر"}</td><td>${escapeHtml(item.order??0)}</td><td><span class="status ${item.active===true?"approved":"pending"}">${item.active===true?"ظاهر":"مخفي"}</span></td><td><div class="action-group"><button class="small-action" onclick="toggleSupporter('${escapeAttribute(item.id)}',${item.active===true})">${item.active===true?"إخفاء":"إظهار"}</button><button class="small-action danger" onclick="deleteSupporter('${escapeAttribute(item.id)}')">حذف</button></div></td>`;table.appendChild(row)})}
+function openSupporterAdminModal(){document.getElementById("supporterAdminForm").reset();document.getElementById("supporterOrder").value="0";document.getElementById("supporterActive").value="true";openModal("supporterAdminModal")}
+document.getElementById("supporterAdminForm").addEventListener("submit",async function(e){e.preventDefault();const btn=this.querySelector("button[type='submit']"),file=document.getElementById("supporterLogo").files[0];if(!file){showToast("اللوجو مطلوب","اختر شعار الشركة أو المؤسسة.","error");return;}const name=document.getElementById("supporterName").value.trim(),url=document.getElementById("supporterUrl").value.trim(),order=Math.max(0,Math.floor(Number(document.getElementById("supporterOrder").value||0))),active=document.getElementById("supporterActive").value==="true";if(!/^https?:\/\//i.test(url)){showToast("الرابط غير صالح","استخدم رابطًا يبدأ بـ https:// أو http://","error");return;}btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> جارٍ رفع اللوجو...';try{const data=await uploadToCloudinary(file);await db.collection(COLLECTIONS.supporters).add({name,url,order,active,logo:data.secure_url,logoPublicId:data.public_id||"",createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()});this.reset();closeModal("supporterAdminModal");await loadDashboard();await loadPublicSupporters();showToast("تمت الإضافة","تمت إضافة الداعم.")}catch(e){showFirebaseError(e)}finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-cloud-arrow-up"></i> رفع وإضافة الداعم'}});
+async function toggleSupporter(id,current){try{await db.collection(COLLECTIONS.supporters).doc(id).update({active:!current,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});await loadDashboard();await loadPublicSupporters();showToast("تم التحديث",current?"تم إخفاء الداعم.":"تم إظهار الداعم.")}catch(e){showFirebaseError(e)}}
+async function deleteSupporter(id){if(!confirm("هل تريد حذف هذا الداعم نهائيًا؟"))return;try{await db.collection(COLLECTIONS.supporters).doc(id).delete();await loadDashboard();await loadPublicSupporters();showToast("تم الحذف","تم حذف الداعم.")}catch(e){showFirebaseError(e)}}
 
 /* =====================================================
    ACHIEVEMENTS + PROJECT SETTINGS
